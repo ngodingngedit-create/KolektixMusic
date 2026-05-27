@@ -37,7 +37,7 @@ body {
 
 #app {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr) auto;
   grid-template-rows: 80px 1fr auto;
   height: 100vh;
   width: 100vw;
@@ -56,9 +56,7 @@ body {
   grid-row: 2;
 }
 
-.sidebar-right {
-  display: none !important;
-}
+
 
 .player-bar {
   grid-column: 1 / -1;
@@ -198,6 +196,7 @@ body {
 .cursor-pointer { cursor: pointer; }
 .object-cover { object-fit: cover; }
 .overflow-hidden { overflow: hidden; }
+.overflow-x-auto { overflow-x: auto; }
 
 /* Static Button Sizing to remain stable during Zooming */
 .btn {
@@ -270,14 +269,7 @@ body {
 
 /* Responsive Breakpoints */
 @media (max-width: 1200px) {
-  #app {
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-rows: 80px 1fr auto;
-  }
   
-  .sidebar-right {
-    display: none;
-  }
 }
 
 @media (max-width: 768px) {
@@ -291,12 +283,18 @@ body {
     grid-row: 2;
   }
   
-  .sidebar-right {
-    display: none;
-  }
+
   
   .player-bar {
     grid-column: 1;
     grid-row: 3;
+  }
+}
+
+/* Reduce margin-right when right sidebar is open on desktop to bring main content closer to it */
+@media (min-width: 769px) {
+  #app.right-sidebar-open .main-content,
+  #app.right-sidebar-open .discover-content {
+    margin-right: 0.25rem !important;
   }
 }

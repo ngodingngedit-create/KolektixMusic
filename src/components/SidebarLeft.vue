@@ -3,9 +3,13 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 defineProps({
   isOpen: Boolean,
-  isCollapsed: Boolean
+  isCollapsed: Boolean,
+  activeTab: {
+    type: String,
+    default: 'Home'
+  }
 })
-const emit = defineEmits(['close', 'toggle-collapse'])
+const emit = defineEmits(['close', 'toggle-collapse', 'change-tab'])
 
 const showMenuAccordion = ref(true)
 const showLibraryAccordion = ref(true)
@@ -73,8 +77,8 @@ const libraryItems = [
         </h3>
         <transition name="slide-down">
           <ul v-show="showMenuAccordion || isCollapsed">
-            <li v-for="item in navItems" :key="item.name" :class="{ active: item.active }">
-              <a href="#" class="flex items-center gap-3" :title="isCollapsed ? item.name : ''">
+            <li v-for="item in navItems" :key="item.name" :class="{ active: item.name === activeTab }">
+              <a href="#" @click.prevent="$emit('change-tab', item.name)" class="flex items-center gap-3" :title="isCollapsed ? item.name : ''">
                 <i class="ph text-xl shrink-0" :class="item.icon"></i>
                 <span class="menu-label">{{ item.name }}</span>
               </a>

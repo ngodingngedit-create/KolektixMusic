@@ -30,7 +30,7 @@ const featuredArtists = [
       artist: 'Pamungkas',
       meta: '10 Songs • 32 Min',
       desc: 'Album baru dari Pamungkas berisi 10 lagu dengan cerita tentang perjalanan, kehilangan, dan menemukan diri sendiri.',
-      img: '/album_to_the_bone.jpg'
+      img: '/pamungkas.jpg'
     }
   },
   {
@@ -217,20 +217,20 @@ const topMixes = [
 
 const bestNewSongs = [
   // Column 1
-  { title: 'the cure', artist: 'Olivia Rodrigo', img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=120&h=120', explicit: true },
-  { title: 'SS26', artist: 'Charli xcx', img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=120&h=120' },
-  { title: 'STOP', artist: 'Bella Kay', img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=120&h=120' },
-  { title: 'Barbie Doll', artist: 'Hurricane Wisdom, Chance the Rapper', img: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&q=80&w=120&h=120', explicit: true },
+  { title: 'the cure', artist: 'Olivia Rodrigo', img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=120&h=120', explicit: true, plays: '4.8M' },
+  { title: 'SS26', artist: 'Charli xcx', img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=120&h=120', plays: '950K' },
+  { title: 'STOP', artist: 'Bella Kay', img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=120&h=120', plays: '1.2M' },
+  { title: 'Barbie Doll', artist: 'Hurricane Wisdom, Chance the Rapper', img: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&q=80&w=120&h=120', explicit: true, plays: '2.5M' },
   // Column 2
-  { title: 'From Down Here', artist: 'Lola Young', img: 'https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&q=80&w=120&h=120' },
-  { title: 'Thick One (feat. Skilla Baby) [Remix]', artist: '42 Dugg, Kash Doll', img: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=120&h=120', explicit: true },
-  { title: 'All That Matters', artist: '6LACK, AZ Chike, Leon Thomas', img: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?auto=format&fit=crop&q=80&w=120&h=120', explicit: true },
-  { title: 'Life On The Run', artist: 'Brandi Carlile', img: 'https://images.unsplash.com/photo-1487180142328-0c4e37023af5?auto=format&fit=crop&q=80&w=120&h=120' },
+  { title: 'From Down Here', artist: 'Lola Young', img: 'https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&q=80&w=120&h=120', plays: '150K' },
+  { title: 'Thick One (feat. Skilla Baby) [Remix]', artist: '42 Dugg, Kash Doll', img: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=120&h=120', explicit: true, plays: '1.8M' },
+  { title: 'All That Matters', artist: '6LACK, AZ Chike, Leon Thomas', img: 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?auto=format&fit=crop&q=80&w=120&h=120', explicit: true, plays: '620K' },
+  { title: 'Life On The Run', artist: 'Brandi Carlile', img: 'https://images.unsplash.com/photo-1487180142328-0c4e37023af5?auto=format&fit=crop&q=80&w=120&h=120', plays: '310K' },
   // Column 3
-  { title: 'ONE of ONE', artist: 'Master Peace', img: 'https://images.unsplash.com/photo-1482440308425-276ad0f28b19?auto=format&fit=crop&q=80&w=120&h=120' },
-  { title: 'All The Best', artist: 'Ingrid Andress', img: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&q=80&w=120&h=120' },
-  { title: 'Goals', artist: 'LISA, Anitta, Rema', img: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80&w=120&h=120' },
-  { title: 'End of an Era', artist: 'Niall Horan', img: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&q=80&w=120&h=120' }
+  { title: 'ONE of ONE', artist: 'Master Peace', img: 'https://images.unsplash.com/photo-1482440308425-276ad0f28b19?auto=format&fit=crop&q=80&w=120&h=120', plays: '420K' },
+  { title: 'All The Best', artist: 'Ingrid Andress', img: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&q=80&w=120&h=120', plays: '1.1M' },
+  { title: 'Goals', artist: 'LISA, Anitta, Rema', img: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80&w=120&h=120', plays: '7.4M' },
+  { title: 'End of an Era', artist: 'Niall Horan', img: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&q=80&w=120&h=120', plays: '2.1M' }
 ]
 
 const songColumns = computed(() => {
@@ -242,13 +242,13 @@ const songColumns = computed(() => {
 })
 
 const recentlyPlayed = [
-  { name: 'To the Bone', artist: 'Pamungkas', img: '/album_to_the_bone.jpg' },
+  { name: 'To the Bone', artist: 'Pamungkas', img: '/pamungkas.jpg' },
   { name: 'Bila Nanti', artist: 'Nadin Amizah', img: '/nadin.jpg' },
   { name: 'Lagipula Hidup Akan Berakhir', artist: 'Hindia', img: '/album_hindia.png' },
   { name: 'Sialnya, Hidup Bernadya', artist: 'Bernadya', img: '/album_bernadya1.png' },
   { name: 'Sialnya, Hidup Harus Tetap Berjalan', artist: 'Bernadya', img: '/album_bernadya2.png' },
   { name: 'Berhati', artist: 'Sal Priadi', img: '/album_sal_priadi.png' },
-  { name: 'Nalar', artist: 'Fiersa Besari', img: '/album_to_the_bone.jpg' },
+  { name: 'Nalar', artist: 'Fiersa Besari', img: '/pamungkas.jpg' },
   { name: 'Tutur Batin', artist: 'Yura Yunita', img: '/nadin.jpg' }
 ]
 
@@ -280,6 +280,188 @@ const scrollRecentRight = () => {
     recentGridRef.value.scrollBy({ left: 320, behavior: 'smooth' })
   }
 }
+
+const madeForYou = [
+  {
+    id: 1,
+    title: 'Zedd Mix',
+    subtitle: 'Playlist • Spotify',
+    description: 'Jonas Blue, Martin Garrix and Zara Larsson',
+    miniImg: '/zedd_mix.png',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-dj-playing-music-at-a-club-42283-large.mp4',
+    posterUrl: '/zedd_mix.png',
+    previewAudioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+    logoBg: '#A06AF2'
+  },
+  {
+    id: 2,
+    title: 'Man Osman Radio',
+    subtitle: 'Playlist • Spotify',
+    description: 'With Traffic Jam, Harra., BIANCADIMAS and more',
+    miniImg: '/man_osman.png',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-animation-of-futuristic-neon-lights-42861-large.mp4',
+    posterUrl: '/man_osman.png',
+    previewAudioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+    logoBg: '#C37299'
+  },
+  {
+    id: 3,
+    title: 'Shape of My Heart Radio',
+    subtitle: 'Playlist • Spotify',
+    description: 'With Backstreet Boys, *NSYNC, M2M and more',
+    miniImg: '/shape_of_heart.png',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-crowd-dancing-at-a-music-concert-43282-large.mp4',
+    posterUrl: '/shape_of_heart.png',
+    previewAudioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+    logoBg: '#4A90E2'
+  }
+]
+
+const liveSessions = [
+  {
+    title: 'Hindia Live at Istora Senayan',
+    artist: 'Hindia',
+    img: '/album_hindia.png',
+    date: '24 May 2026',
+    location: 'Jakarta, ID',
+    venue: 'Istora Senayan',
+    color: '#8B0000',
+    type: 'LIVE'
+  },
+  {
+    title: 'Nadin Amizah Acoustic Showcase',
+    artist: 'Nadin Amizah',
+    img: '/nadin.jpg',
+    date: '12 Jun 2026',
+    location: 'Bandung, ID',
+    venue: 'Gedung Kesenian',
+    color: '#4E6E5D',
+    type: 'ACOUSTIC'
+  },
+  {
+    title: 'Pamungkas Solipsism Session',
+    artist: 'Pamungkas',
+    img: '/pamungkas.jpg',
+    date: '30 Jul 2026',
+    location: 'London, UK',
+    venue: 'St Pancras',
+    color: '#997D30',
+    type: 'LIVE'
+  },
+  {
+    title: 'Bernadya Intimate Tour',
+    artist: 'Bernadya',
+    img: '/album_bernadya1.png',
+    date: '18 Aug 2026',
+    location: 'Surabaya, ID',
+    venue: 'Balai Pemuda',
+    color: '#2E1C40',
+    type: 'SHOWCASE'
+  }
+]
+
+const ambientSoundscapes = [
+  {
+    title: 'Rainy Nights in Tokyo',
+    artist: 'Sora Noise',
+    img: 'https://images.unsplash.com/photo-1515621061946-eff1c2a352bd?auto=format&fit=crop&q=80&w=250&h=250',
+    category: 'Focus Rain',
+    vinylColor: '#4C3A69'
+  },
+  {
+    title: 'Deep Space Resonance',
+    artist: 'Lumen Astral',
+    img: 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&q=80&w=250&h=250',
+    category: 'Cosmic Sleep',
+    vinylColor: '#1D2A44'
+  },
+  {
+    title: 'Forest Whisperings',
+    artist: 'Woodland Synth',
+    img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80&w=250&h=250',
+    category: 'Green Noise',
+    vinylColor: '#2D4F37'
+  },
+  {
+    title: 'Coffee Shop Binaural',
+    artist: 'Roast & Chatter',
+    img: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=250&h=250',
+    category: 'Cozy Focus',
+    vinylColor: '#50372F'
+  }
+]
+
+const commentaryCassettes = [
+  {
+    title: 'Evaluasi (Behind The Album)',
+    artist: 'Hindia',
+    img: '/album_hindia.png',
+    bgColor: '#EAA15F',
+    tracks: ['1. Kenapa Evaluasi (3:12)', '2. Proses Rekam (5:45)', '3. Arti Lirik (4:20)'],
+    totalTime: '13:17'
+  },
+  {
+    title: 'Solipsism (Commentary Edition)',
+    artist: 'Pamungkas',
+    img: '/pamungkas.jpg',
+    bgColor: '#2E2E2E',
+    tracks: ['1. Intro Commentary (2:05)', '2. To the Bone Meaning (6:18)', '3. Studio Hacks (4:50)'],
+    totalTime: '13:13'
+  },
+  {
+    title: 'Berhati (Storyteller Special)',
+    artist: 'Sal Priadi',
+    img: '/album_sal_priadi.png',
+    bgColor: '#8F3E33',
+    tracks: ['1. Nyanyian Storyteller (4:10)', '2. Filosofi Berhati (5:22)', '3. Recording Bloopers (3:45)'],
+    totalTime: '13:17'
+  },
+  {
+    title: 'Tutur Batin (Voice Notes)',
+    artist: 'Yura Yunita',
+    img: '/nadin.jpg',
+    bgColor: '#C58498',
+    tracks: ['1. Awal Mula Ide (3:05)', '2. Emosional Sesi (4:40)', '3. Pesan Tersembunyi (5:15)'],
+    totalTime: '13:00'
+  }
+]
+
+const activePreviewId = ref(null)
+let previewAudio = null
+
+const togglePreview = (card) => {
+  if (activePreviewId.value === card.id) {
+    if (previewAudio) {
+      previewAudio.pause()
+    }
+    activePreviewId.value = null
+    return
+  }
+
+  if (previewAudio) {
+    previewAudio.pause()
+    previewAudio = null
+  }
+
+  activePreviewId.value = card.id
+  previewAudio = new Audio(card.previewAudioUrl)
+  previewAudio.play().catch(err => {
+    console.error("Audio playback error:", err)
+    activePreviewId.value = null
+  })
+
+  previewAudio.onended = () => {
+    activePreviewId.value = null
+    previewAudio = null
+  }
+}
+
+onUnmounted(() => {
+  if (previewAudio) {
+    previewAudio.pause()
+    previewAudio = null
+  }
+})
 </script>
 
 <template>
@@ -389,7 +571,7 @@ const scrollRecentRight = () => {
           :key="cat" 
           @click="activeCategory = cat"
           :class="{ 'active-category': activeCategory === cat }"
-          class="category-btn"
+          class="category-btn shrink-0"
         >
           {{ cat }}
         </button>
@@ -449,35 +631,52 @@ const scrollRecentRight = () => {
           Best New Songs <i class="ph ph-caret-right text-base text-secondary"></i>
         </h3>
       </div>
-      <div class="best-songs-grid grid gap-x-8 gap-y-2">
-        <div v-for="(col, colIdx) in songColumns" :key="colIdx" class="song-column flex flex-col gap-3">
-          <div 
-            v-for="song in col" 
-            :key="song.title" 
-            class="song-row flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors group"
-          >
-            <div class="flex items-center gap-3 flex-1 min-w-0">
-              <div class="song-row-img-wrapper relative w-8 h-8 rounded overflow-hidden shrink-0">
-                <img :src="song.img" :alt="song.title" class="w-full h-full object-cover" />
-                <!-- Play Button Overlay on Hover -->
-                <div class="play-overlay absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <i class="ph ph-fill ph-play text-white text-xs"></i>
+      <div class="best-songs-grid grid gap-x-6">
+        <div v-for="(col, colIdx) in songColumns" :key="colIdx" class="song-column flex flex-col">
+          <template v-for="(song, songIdx) in col" :key="song.title">
+            <div 
+              class="song-row flex items-center justify-between p-2 hover:bg-white/5 transition-colors group"
+            >
+              <div class="flex items-center gap-3 flex-1 min-w-0 overflow-hidden">
+                <div class="song-row-img-wrapper relative overflow-hidden shrink-0">
+                  <img :src="song.img" :alt="song.title" class="w-full h-full object-cover" />
+                  <!-- Play Button Overlay on Hover -->
+                  <div class="play-overlay absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <i class="ph ph-fill ph-play text-white text-xs"></i>
+                  </div>
+                </div>
+                <div class="song-row-info min-w-0 flex-1 overflow-hidden">
+                  <h4 class="text-sm font-semibold text-white flex items-center gap-1.5 w-full overflow-hidden">
+                    <div class="marquee-wrapper flex-1 min-w-0">
+                      <div class="marquee-content" :class="{ 'animate-marquee': song.title.length > 18 }">
+                        <span class="song-title-text">{{ song.title }}</span>
+                        <span v-if="song.title.length > 18" class="track-title-spacer">&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <span v-if="song.title.length > 18" class="song-title-text">{{ song.title }}</span>
+                      </div>
+                    </div>
+                    <span v-if="song.explicit" class="explicit-badge shrink-0">E</span>
+                  </h4>
+                  <div class="marquee-wrapper mt-0.5">
+                    <div class="marquee-content" :class="{ 'animate-marquee': song.artist.length > 20 }">
+                      <span class="text-xs text-secondary">{{ song.artist }}</span>
+                      <span class="text-xs text-secondary/60 ml-1.5">• {{ song.plays }} plays</span>
+                      <span v-if="song.artist.length > 20" class="track-title-spacer">&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      <span v-if="song.artist.length > 20" class="text-xs text-secondary">{{ song.artist }}</span>
+                      <span v-if="song.artist.length > 20" class="text-xs text-secondary/60 ml-1.5">• {{ song.plays }} plays</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="min-w-0">
-                <h4 class="text-sm font-semibold text-white truncate flex items-center gap-1.5">
-                  {{ song.title }}
-                  <span v-if="song.explicit" class="explicit-badge shrink-0">E</span>
-                </h4>
-                <p class="text-xs text-secondary truncate mt-0.5">{{ song.artist }}</p>
-              </div>
+              <button class="btn-icon text-secondary hover:text-white ml-2 shrink-0">
+                <i class="ph ph-dots-three text-lg"></i>
+              </button>
             </div>
-            <button class="btn-icon text-secondary hover:text-white ml-2 shrink-0">
-              <i class="ph ph-dots-three text-lg"></i>
-            </button>
-          </div>
+            <!-- Inset separator: only between items, not after last -->
+            <div v-if="songIdx < col.length - 1" class="song-col-divider"></div>
+          </template>
         </div>
       </div>
+
     </section>
 
     <!-- Recently Played Section -->
@@ -510,6 +709,240 @@ const scrollRecentRight = () => {
       </div>
     </section>
 
+    <!-- Made for you Section -->
+    <section class="mb-10 made-for-you-section">
+      <div class="section-header flex justify-between items-center mb-6">
+        <h3 class="text-xl font-bold flex items-center gap-2">Made for you</h3>
+      </div>
+      <div class="made-for-you-grid grid gap-6">
+        <div 
+          v-for="card in madeForYou" 
+          :key="card.id" 
+          class="video-card group cursor-pointer"
+        >
+          <!-- Background Video (Muted, looping, auto-playing) -->
+          <video 
+            class="card-video-bg"
+            autoplay 
+            loop 
+            muted 
+            playsinline
+            :poster="card.posterUrl"
+          >
+            <source :src="card.videoUrl" type="video/mp4" />
+          </video>
+          
+          <!-- Gradient Overlay -->
+          <div class="card-video-overlay"></div>
+          
+          <!-- Top Left Info Header -->
+          <div class="card-top-left">
+            <div class="mini-artwork" :style="{ backgroundColor: card.logoBg }">
+              <img :src="card.miniImg" />
+            </div>
+            <div class="card-title-wrapper">
+              <h4 class="video-card-title">{{ card.title }}</h4>
+              <p class="video-card-subtitle">{{ card.subtitle }}</p>
+            </div>
+          </div>
+          
+          <!-- Bottom Left Description -->
+          <div class="card-bottom-left">
+            <p class="video-card-desc">{{ card.description }}</p>
+          </div>
+
+          <!-- Bottom Control Overlay (appears on hover) -->
+          <div class="card-controls">
+            <!-- Left Side: Preview Button -->
+            <button 
+              @click.stop="togglePreview(card)" 
+              class="btn-preview"
+            >
+              <i class="ph" :class="activePreviewId === card.id ? 'ph-waveform active-wave-icon' : 'ph-headphones'"></i>
+              <span>{{ activePreviewId === card.id ? 'Stop Preview' : 'Preview' }}</span>
+            </button>
+
+            <!-- Right Side: Play and More Buttons -->
+            <div class="controls-right">
+              <button class="btn-more-icon">
+                <i class="ph ph-dots-three"></i>
+              </button>
+              <button class="btn-more-icon">
+                <i class="ph ph-plus"></i>
+              </button>
+              <button class="btn-video-play">
+                <i class="ph ph-fill ph-play"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Sessions Section -->
+    <section class="mb-10 live-sessions-section">
+      <div class="section-header flex justify-between items-center mb-6">
+        <h3 class="text-xl font-bold flex items-center gap-2">Live Sessions & Concerts</h3>
+      </div>
+      <div class="live-sessions-wrapper relative">
+        <div class="live-sessions-grid flex overflow-x-auto gap-6 pb-4">
+          <div 
+            v-for="session in liveSessions" 
+            :key="session.title" 
+            class="ticket-card shrink-0"
+            :style="{ '--ticket-color': session.color }"
+          >
+            <!-- Main Ticket Body (Left) -->
+            <div class="ticket-main">
+              <div class="ticket-art-wrapper">
+                <img :src="session.img" :alt="session.title" class="ticket-art" />
+                <div class="ticket-art-overlay"></div>
+                <div class="ticket-play-icon">
+                  <i class="ph ph-fill ph-play text-white"></i>
+                </div>
+              </div>
+              <div class="ticket-info">
+                <span class="ticket-artist-name">{{ session.artist }}</span>
+                <h4 class="ticket-album-title">{{ session.title }}</h4>
+              </div>
+            </div>
+            
+            <!-- Dashed Perforation Line -->
+            <div class="ticket-divider">
+              <div class="punch-hole punch-top"></div>
+              <div class="dashed-line"></div>
+              <div class="punch-hole punch-bottom"></div>
+            </div>
+            
+            <!-- Ticket Stub (Right) -->
+            <div class="ticket-stub">
+              <div class="stub-badge" :style="{ backgroundColor: session.color }">{{ session.type }}</div>
+              <div class="stub-datetime">
+                <span class="stub-date">{{ session.date.split(' ')[0] }} {{ session.date.split(' ')[1] }}</span>
+                <span class="stub-year">{{ session.date.split(' ')[2] }}</span>
+              </div>
+              <div class="stub-venue">
+                <span class="venue-name">{{ session.venue }}</span>
+                <span class="venue-city">{{ session.location }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ambient & Focus Section -->
+    <section class="mb-10 ambient-vinyl-section">
+      <div class="section-header flex justify-between items-center mb-6">
+        <h3 class="text-xl font-bold flex items-center gap-2">Ambient & Focus (Spatial Vinyls)</h3>
+      </div>
+      <div class="ambient-vinyl-wrapper relative">
+        <div class="ambient-vinyl-grid flex overflow-x-auto gap-6 pb-4">
+          <div 
+            v-for="soundscape in ambientSoundscapes" 
+            :key="soundscape.title" 
+            class="vinyl-card-container shrink-0"
+          >
+            <!-- Sleeved Card Cover -->
+            <div class="vinyl-sleeve-wrapper">
+              <!-- Spinning Vinyl Disc (Z-Indexed Behind Sleeve) -->
+              <div class="vinyl-disc" :style="{ backgroundColor: soundscape.vinylColor }">
+                <div class="vinyl-groove-lines"></div>
+                <div class="vinyl-center-label">
+                  <div class="vinyl-center-dot"></div>
+                </div>
+              </div>
+              
+              <!-- Main Sleeve Cover -->
+              <div class="vinyl-sleeve">
+                <img :src="soundscape.img" :alt="soundscape.title" class="sleeve-art" />
+                <div class="sleeve-overlay"></div>
+                <!-- Badge indicating focusing type -->
+                <div class="sleeve-badge">{{ soundscape.category }}</div>
+                <div class="sleeve-play-btn">
+                  <i class="ph ph-fill ph-play"></i>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Album Details -->
+            <div class="vinyl-info">
+              <h4 class="vinyl-title">{{ soundscape.title }}</h4>
+              <p class="vinyl-artist">{{ soundscape.artist }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Commentary Cassettes Section -->
+    <section class="mb-10 commentary-cassette-section">
+      <div class="section-header flex justify-between items-center mb-6">
+        <h3 class="text-xl font-bold flex items-center gap-2">Commentary Cassettes (3D Flip)</h3>
+      </div>
+      <div class="commentary-cassette-wrapper relative">
+        <div class="commentary-cassette-grid flex overflow-x-auto gap-6 pb-4">
+          <div 
+            v-for="cassette in commentaryCassettes" 
+            :key="cassette.title" 
+            class="cassette-card shrink-0"
+          >
+            <div class="cassette-card-inner">
+              <!-- Front Side: Cassette Cover Art -->
+              <div class="cassette-front" :style="{ '--tape-bg': cassette.bgColor }">
+                <div class="cassette-shell">
+                  <div class="cassette-label-sticker">
+                    <div class="sticker-top">
+                      <span class="sticker-side">A</span>
+                      <span class="sticker-logo">KOLEKTIX</span>
+                    </div>
+                    <div class="sticker-window">
+                      <div class="window-spool left-spool"><div class="spool-teeth"></div></div>
+                      <div class="window-tape"></div>
+                      <div class="window-spool right-spool"><div class="spool-teeth"></div></div>
+                    </div>
+                    <div class="sticker-bottom">
+                      <h4 class="cassette-label-title">{{ cassette.title }}</h4>
+                      <p class="cassette-label-artist">{{ cassette.artist }}</p>
+                    </div>
+                  </div>
+                  <!-- Bottom shell details -->
+                  <div class="cassette-bottom-trap">
+                    <div class="trap-hole"></div>
+                    <div class="trap-hole"></div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Back Side: Cassette Commentary Details & Tracklist -->
+              <div class="cassette-back">
+                <div class="cassette-back-content flex flex-col justify-between h-full p-4">
+                  <div class="back-header">
+                    <span class="text-[10px] text-accent uppercase font-bold tracking-wider">Commentary B-Side</span>
+                    <h5 class="text-sm font-bold text-white truncate mt-0.5">{{ cassette.title }}</h5>
+                  </div>
+                  
+                  <!-- Small tracklist of voice notes/commentary -->
+                  <ul class="cassette-tracks flex flex-col gap-1.5 my-3">
+                    <li v-for="track in cassette.tracks" :key="track" class="text-[11px] text-secondary truncate">
+                      {{ track }}
+                    </li>
+                  </ul>
+                  
+                  <div class="back-footer flex justify-between items-center pt-2 border-t border-white/5">
+                    <span class="text-[10px] text-secondary">Total: {{ cassette.totalTime }}</span>
+                    <button class="btn btn-primary py-1 px-3 text-[10px] flex items-center gap-1">
+                      <i class="ph ph-fill ph-play"></i> Play Tape
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <div style="height: 100px;"></div>
   </main>
 </template>
@@ -518,14 +951,92 @@ const scrollRecentRight = () => {
 .main-content {
   padding: 1.25rem 1.5rem 2rem 1.5rem;
   overflow-y: auto;
-  height: calc(100% - 1rem);
-  margin: 0.25rem 1.5rem 0.75rem 0.25rem;
+  height: calc(100% - 0.25rem);
+  margin: 0.25rem 1.5rem 0 0.25rem;
   background-color: #1A1A1C;
   border: 1px solid var(--border-color);
-  border-radius: 5px;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
   min-width: 0;
   overflow-x: hidden;
   transition: all 0.3s ease;
+}
+
+/* Best New Songs Grid Layout */
+.best-songs-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+}
+
+.song-column {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.song-row {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.song-row-info {
+  min-width: 0;
+  overflow: hidden;
+  flex: 1;
+}
+
+.song-row-img-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.song-row-divider {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.song-column .song-row-divider:last-child {
+  border-bottom: none;
+}
+
+/* Inset separator between song rows — starts from text area, not full width */
+.song-col-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-left: 52px; /* 40px img + 12px gap — aligns with text start */
+  margin-right: 8px;
+}
+
+/* Infinity Loop Marquee styles for song list */
+.marquee-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  display: block;
+}
+
+.marquee-content {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.animate-marquee {
+  animation: marquee 12s linear infinite;
+}
+
+.track-title-spacer {
+  color: var(--text-secondary);
+  opacity: 0.4;
+  font-size: 0.75rem;
+  display: inline-block;
+}
+
+@keyframes marquee {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 /* Hero Banner Layout */
@@ -788,6 +1299,7 @@ const scrollRecentRight = () => {
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .category-btn:hover {
@@ -829,6 +1341,7 @@ const scrollRecentRight = () => {
 .mixes-grid, .recently-played-grid {
   width: 100%;
   scroll-behavior: smooth;
+  overflow-x: auto;
 }
 
 .mix-card {
@@ -987,6 +1500,9 @@ const scrollRecentRight = () => {
   z-index: 30;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
   display: flex;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.2s ease, background-color 0.2s ease;
 }
 
 .scroll-arrow-left {
@@ -999,6 +1515,12 @@ const scrollRecentRight = () => {
 
 .scroll-arrow:hover {
   transform: translateY(-50%) scale(1.05);
+}
+
+.mixes-container-wrapper:hover .scroll-arrow,
+.recently-played-wrapper:hover .scroll-arrow {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* Text and Titles */
@@ -1232,6 +1754,9 @@ const scrollRecentRight = () => {
 }
 
 .song-row-img-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 5px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.05);
   transition: transform 0.2s ease;
@@ -1273,5 +1798,802 @@ const scrollRecentRight = () => {
   .best-songs-grid {
     grid-template-columns: 1fr !important;
   }
+}
+
+/* Made For You Section Styles */
+.made-for-you-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.video-card {
+  position: relative;
+  height: 360px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background-color: #1A1A1C;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.card-video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  transition: transform 0.5s ease;
+}
+
+.video-card:hover .card-video-bg {
+  transform: scale(1.03);
+}
+
+.card-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(to bottom, rgba(18, 18, 18, 0.6) 0%, rgba(18, 18, 18, 0.2) 50%, rgba(18, 18, 18, 0.95) 100%);
+  transition: background 0.3s ease;
+}
+
+.video-card:hover .card-video-overlay {
+  background: linear-gradient(to bottom, rgba(18, 18, 18, 0.4) 0%, rgba(18, 18, 18, 0.1) 40%, rgba(18, 18, 18, 0.98) 100%);
+}
+
+.card-top-left {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 10;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.mini-artwork {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mini-artwork img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.video-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.video-card-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.card-bottom-left {
+  position: absolute;
+  bottom: 60px;
+  left: 16px;
+  right: 16px;
+  z-index: 10;
+  transition: opacity 0.25s ease;
+}
+
+.video-card-desc {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.8;
+}
+
+.video-card:hover .card-bottom-left {
+  opacity: 0;
+}
+
+/* Control buttons style */
+.card-controls {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.video-card:hover .card-controls {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.btn-preview {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #121212;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-preview:hover {
+  background-color: #FFFFFF;
+  transform: scale(1.03);
+}
+
+.btn-preview i {
+  font-size: 0.875rem;
+}
+
+.active-wave-icon {
+  color: #2563EB;
+  font-weight: bold;
+  animation: pulse 1s infinite alternate;
+}
+
+.controls-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-more-icon {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-more-icon:hover {
+  color: #FFFFFF;
+  transform: scale(1.1);
+}
+
+.btn-video-play {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: none;
+  color: #121212;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-video-play:hover {
+  background-color: #F3F4F6;
+  transform: scale(1.05);
+}
+
+.btn-video-play i {
+  font-size: 0.875rem;
+  margin-left: 2px;
+}
+
+/* Responsive Made For You Grid */
+@media (max-width: 1024px) {
+  .made-for-you-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .made-for-you-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .video-card {
+    height: 300px;
+  }
+}
+/* Live Sessions Ticket Card Styles */
+.live-sessions-grid {
+  width: 100%;
+  scroll-behavior: smooth;
+  overflow-x: auto;
+}
+
+.ticket-card {
+  display: flex;
+  width: 320px;
+  height: 140px;
+  border-radius: 12px;
+  background-color: #1E1E22;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.ticket-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5), 0 0 15px var(--ticket-color);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.ticket-main {
+  flex: 1.8;
+  display: flex;
+  padding: 12px;
+  gap: 12px;
+  min-width: 0;
+}
+
+.ticket-art-wrapper {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 8px;
+  overflow: hidden;
+  align-self: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ticket-art {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ticket-art-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.ticket-card:hover .ticket-art-overlay {
+  opacity: 1;
+}
+
+.ticket-play-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.25s ease;
+}
+
+.ticket-card:hover .ticket-play-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ticket-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.ticket-artist-name {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ticket-album-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-top: 4px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Dashed divider perforation */
+.ticket-divider {
+  position: relative;
+  width: 1px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.dashed-line {
+  width: 0;
+  height: 70%;
+  border-left: 1px dashed rgba(255, 255, 255, 0.15);
+}
+
+.punch-hole {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background-color: #1A1A1C; /* Matches MainContent background to look like a cutout */
+  border-radius: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid var(--border-color);
+  z-index: 10;
+}
+
+.punch-top {
+  top: -8px;
+}
+
+.punch-bottom {
+  bottom: -8px;
+}
+
+/* Ticket Stub */
+.ticket-stub {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.01);
+  text-align: center;
+  min-width: 0;
+}
+
+.stub-badge {
+  font-size: 8px;
+  font-weight: 800;
+  color: #FFFFFF;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.stub-datetime {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.stub-date {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.stub-year {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+
+.stub-venue {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+}
+
+.venue-name {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.venue-city {
+  font-size: 0.6rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Ambient Vinyl Disc styles */
+.ambient-vinyl-grid {
+  width: 100%;
+  scroll-behavior: smooth;
+  overflow-x: auto;
+}
+
+.vinyl-card-container {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.vinyl-card-container:hover {
+  transform: translateY(-4px);
+}
+
+.vinyl-sleeve-wrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: visible; /* To let vinyl slide out */
+}
+
+/* Vinyl Disc styling */
+.vinyl-disc {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Grooves on vinyl */
+.vinyl-groove-lines {
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8),
+              0 0 0 5px rgba(255, 255, 255, 0.01),
+              0 0 0 15px rgba(255, 255, 255, 0.01),
+              0 0 0 25px rgba(255, 255, 255, 0.01),
+              0 0 0 35px rgba(255, 255, 255, 0.01),
+              0 0 0 45px rgba(255, 255, 255, 0.01),
+              0 0 0 55px rgba(255, 255, 255, 0.01);
+}
+
+.vinyl-center-label {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.vinyl-center-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #121212;
+}
+
+/* Main Sleeve Cover */
+.vinyl-sleeve {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 2;
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-color);
+}
+
+.sleeve-art {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.sleeve-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.8) 100%);
+}
+
+.sleeve-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 8px;
+  font-weight: 700;
+  color: #FFFFFF;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sleeve-play-btn {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  color: #121212;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: all 0.3s ease;
+}
+
+.sleeve-play-btn i {
+  font-size: 11px;
+  margin-left: 1.5px;
+}
+
+/* Sleeve Hover interaction: disc slides out and spins */
+.vinyl-card-container:hover .vinyl-disc {
+  transform: translateX(65px);
+  animation: spin 3s linear infinite;
+  animation-delay: 0.4s;
+}
+
+.vinyl-card-container:hover .sleeve-play-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.vinyl-card-container:hover .sleeve-art {
+  transform: scale(1.03);
+}
+
+@keyframes spin {
+  0% { transform: translateX(65px) rotate(0deg); }
+  100% { transform: translateX(65px) rotate(360deg); }
+}
+
+.vinyl-info {
+  margin-top: 12px;
+}
+
+.vinyl-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vinyl-artist {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Commentary Cassette 3D Flip Styles */
+.commentary-cassette-grid {
+  width: 100%;
+  scroll-behavior: smooth;
+  overflow-x: auto;
+}
+
+.cassette-card {
+  width: 250px;
+  height: 160px;
+  perspective: 1000px; /* 3D context parent */
+}
+
+.cassette-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+}
+
+.cassette-card:hover .cassette-card-inner {
+  transform: rotateY(180deg);
+}
+
+.cassette-front, .cassette-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden; /* Hides reverse side when flipped */
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+/* Front cassette shell details */
+.cassette-front {
+  background-color: #18181A;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cassette-shell {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  border: 3px solid #2B2B2E;
+  background-color: var(--tape-bg);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.cassette-label-sticker {
+  flex: 1;
+  background-color: #FFFFFF;
+  border-radius: 4px;
+  color: #121212;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6px;
+}
+
+.sticker-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sticker-side {
+  font-size: 10px;
+  font-weight: 800;
+  border: 1px solid #121212;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sticker-logo {
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.sticker-window {
+  height: 22px;
+  border-radius: 3px;
+  background-color: #222225;
+  border: 1px solid #A1A1AA;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 15px;
+  position: relative;
+}
+
+.window-spool {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #A1A1AA;
+  border: 2px dashed #52525B;
+  animation: spool-rotate 4s linear infinite paused;
+}
+
+.cassette-card:hover .window-spool {
+  animation-play-state: running;
+}
+
+.window-tape {
+  width: 30px;
+  height: 8px;
+  background-color: #5C4334;
+  opacity: 0.85;
+}
+
+@keyframes spool-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.sticker-bottom {
+  text-align: left;
+  line-height: 1.1;
+}
+
+.cassette-label-title {
+  font-size: 9px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cassette-label-artist {
+  font-size: 7.5px;
+  color: #71717A;
+  font-weight: 600;
+}
+
+.cassette-bottom-trap {
+  height: 14px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 0 0 3px 3px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.trap-hole {
+  width: 5px;
+  height: 5px;
+  background-color: #18181A;
+  border-radius: 50%;
+}
+
+/* Cassette Back (B-Side tracklist details) */
+.cassette-back {
+  background-color: #18181C;
+  transform: rotateY(180deg); /* Pre-flipped face */
+}
+
+.cassette-back-content {
+  background: linear-gradient(135deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.03) 100%);
+  text-align: left;
+}
+
+.cassette-tracks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 </style>

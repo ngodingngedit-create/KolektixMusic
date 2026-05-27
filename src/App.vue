@@ -3,12 +3,17 @@ import { ref } from 'vue'
 import HeaderNav from './components/HeaderNav.vue'
 import SidebarLeft from './components/SidebarLeft.vue'
 import MainContent from './components/MainContent.vue'
+import DiscoverContent from './components/DiscoverContent.vue'
 import SidebarRight from './components/SidebarRight.vue'
 import PlayerBar from './components/PlayerBar.vue'
 
 const isSidebarOpen = ref(false) // Mobile layout drawer state
 const isSidebarCollapsed = ref(false) // Desktop layout collapsed-to-icons state
 const isRightSidebarCollapsed = ref(false) // Right sidebar collapsed state
+
+const activeTab = ref('Home')
+
+const isQueueOpen = ref(false)
 
 const toggleSidebarMobile = () => {
   isSidebarOpen.value = !isSidebarOpen.value
@@ -17,14 +22,10 @@ const toggleSidebarMobile = () => {
 const toggleSidebarDesktop = () => {
   isSidebarCollapsed.value = !isSidebarCollapsed.value
 }
-
-const toggleRightSidebarDesktop = () => {
-  isRightSidebarCollapsed.value = !isRightSidebarCollapsed.value
-}
 </script>
 
 <template>
-  <div id="app" :class="{ 'sidebar-collapsed': isSidebarCollapsed, 'right-sidebar-collapsed': isRightSidebarCollapsed }">
+  <div id="app" :class="{ 'sidebar-collapsed': isSidebarCollapsed, 'right-sidebar-open': isQueueOpen }">
     <!-- Mobile overlay hosted globally -->
     <div v-if="isSidebarOpen" class="sidebar-overlay" @click="isSidebarOpen = false"></div>
 
@@ -36,16 +37,22 @@ const toggleRightSidebarDesktop = () => {
     <SidebarLeft 
       :isOpen="isSidebarOpen" 
       :isCollapsed="isSidebarCollapsed"
+      :activeTab="activeTab"
       @close="isSidebarOpen = false" 
       @toggle-collapse="toggleSidebarDesktop"
+      @change-tab="activeTab = $event"
     />
-    <MainContent />
+    <MainContent v-if="activeTab === 'Home'" />
+    <DiscoverContent v-else-if="activeTab === 'Discover'" />
     <SidebarRight 
       class="sidebar-right" 
-      :isCollapsed="isRightSidebarCollapsed"
-      @toggle-collapse="toggleRightSidebarDesktop"
+      :isOpen="isQueueOpen"
+      @close="isQueueOpen = false"
     />
-    <PlayerBar />
+    <PlayerBar 
+      :isQueueActive="isQueueOpen"
+      @toggle-queue="isQueueOpen = !isQueueOpen"
+    />
   </div>
 </template>
 
@@ -62,13 +69,6 @@ const toggleRightSidebarDesktop = () => {
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
     z-index: 99;
-  }
-}
-
-/* Sidebar Right is hidden on smaller screens */
-@media (max-width: 1200px) {
-  .sidebar-right {
-    display: none;
   }
 }
 </style>

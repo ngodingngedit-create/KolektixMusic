@@ -1,6 +1,11 @@
 <script setup>
 import { ref, computed } from 'vue'
 
+defineProps({
+  isQueueActive: Boolean
+})
+defineEmits(['toggle-queue'])
+
 const isPlaying = ref(false)
 const isMuted = ref(false)
 const isFavorited = ref(true)
@@ -73,7 +78,7 @@ const toggleFavorite = () => {
     <!-- Left: Song details -->
     <div class="song-details flex items-center gap-4">
       <div class="song-thumbnail w-14 h-14 rounded-md overflow-hidden bg-gray-600">
-        <img src="/album_to_the_bone.jpg" alt="To the Bone" class="w-full h-full object-cover"/>
+        <img src="/pamungkas.jpg" alt="To the Bone" class="w-full h-full object-cover"/>
       </div>
       <div>
         <h4 class="text-sm font-semibold">To the Bone</h4>
@@ -118,7 +123,14 @@ const toggleFavorite = () => {
     <!-- Right: Utility controls -->
     <div class="utility-controls flex items-center gap-4">
       <button class="btn-icon text-lg"><i class="ph ph-text-aa"></i></button>
-      <button class="btn-icon text-lg"><i class="ph ph-playlist"></i></button>
+      <button 
+        @click="$emit('toggle-queue')" 
+        class="btn-icon text-lg" 
+        :class="{ 'active-queue-btn': isQueueActive }"
+        title="Play Queue"
+      >
+        <i class="ph ph-playlist"></i>
+      </button>
       <button class="btn-icon text-lg"><i class="ph ph-speaker-hifi"></i></button>
       
       <div 
@@ -152,14 +164,16 @@ const toggleFavorite = () => {
 <style scoped>
 .player-bar {
   grid-column: 1 / -1;
-  border-radius: 5px;
-  margin: 0 1.5rem 1rem 1.5rem;
+  border-radius: 0;
+  margin: 0;
   padding: 0 2rem;
   z-index: 50;
-  background: rgba(26, 26, 26, 0.95);
+  background: rgba(18, 18, 18, 0.95);
   backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--border-color);
-  height: 80px;
+  border: none;
+  border-top: 1px solid var(--border-color);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.4), 0 -2px 10px rgba(0, 0, 0, 0.2);
+  height: 90px;
   transition: all 0.3s ease;
 }
 
@@ -275,5 +289,8 @@ const toggleFavorite = () => {
   .progress-fill {
     border-radius: 0;
   }
+}
+.active-queue-btn {
+  color: var(--accent-blue) !important;
 }
 </style>
