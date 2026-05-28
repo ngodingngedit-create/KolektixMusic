@@ -5,16 +5,19 @@ defineEmits(['toggle-sidebar'])
 <template>
   <header class="top-nav-container">
     <div class="top-nav flex items-center justify-between">
-      <!-- Far Left: Mobile Hamburger & Logo -->
+      <!-- Far Left: Mobile Hamburger & Kolektix Logo -->
       <div class="left-section flex items-center gap-3">
+        <!-- Mobile: hamburger btn comes first -->
         <button @click="$emit('toggle-sidebar')" class="hamburger-btn btn-icon text-2xl mr-1">
           <i class="ph ph-list"></i>
         </button>
         
-        <!-- Logo integrated in header -->
+        <!-- Mobile: Kolektix logo shown next to hamburger -->
         <div class="header-logo flex items-center gap-2">
-          <div class="logo-icon flex items-center justify-center bg-accent-blue/10 w-8 h-8 rounded-lg border border-accent-blue/20">
-            <i class="ph ph-fill ph-music-notes-simple text-accent text-lg"></i>
+          <div class="logo-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 48 46" fill="none">
+              <path fill="#863bff" d="M25.946 44.938c-.664.845-2.021.375-2.021-.698V33.937a2.26 2.26 0 0 0-2.262-2.262H10.287c-.92 0-1.456-1.04-.92-1.788l7.48-10.471c1.07-1.497 0-3.578-1.842-3.578H1.237c-.92 0-1.456-1.04-.92-1.788L10.013.474c.214-.297.556-.474.92-.474h28.894c.92 0 1.456 1.04.92 1.788l-7.48 10.471c-1.07 1.498 0 3.579 1.842 3.579h11.377c.943 0 1.473 1.088.89 1.83L25.947 44.94z"/>
+            </svg>
           </div>
           <span class="logo-text text-lg font-bold tracking-tight">kolektix</span>
         </div>
@@ -43,7 +46,7 @@ defineEmits(['toggle-sidebar'])
         </div>
       </div>
       
-      <!-- Far Right: User Actions -->
+      <!-- Far Right: User Actions (Desktop) -->
       <div class="right-section flex items-center gap-4">
         <button class="btn btn-outline text-sm upload-btn">
           <i class="ph ph-upload-simple"></i> Upload Music
@@ -53,10 +56,16 @@ defineEmits(['toggle-sidebar'])
         <div class="avatar w-8 h-8 rounded-full overflow-hidden bg-gray-600">
           <img src="https://i.pravatar.cc/150?img=11" alt="User" class="w-full h-full object-cover"/>
         </div>
-        <!-- Profile Icon Button on the absolute far right -->
         <button class="btn-icon text-xl profile-btn text-secondary hover:text-primary">
           <i class="ph ph-user"></i>
         </button>
+      </div>
+
+      <!-- Far Right: Mobile Profile Avatar only -->
+      <div class="mobile-right-section flex items-center gap-2">
+        <div class="avatar w-8 h-8 rounded-full overflow-hidden bg-gray-600">
+          <img src="https://i.pravatar.cc/150?img=11" alt="User" class="w-full h-full object-cover"/>
+        </div>
       </div>
     </div>
   </header>
@@ -182,6 +191,16 @@ defineEmits(['toggle-sidebar'])
   display: none;
 }
 
+.mobile-right-section {
+  display: none;
+}
+
+.logo-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 1200px) {
   .left-section {
     width: auto;
@@ -196,13 +215,24 @@ defineEmits(['toggle-sidebar'])
 
 @media (max-width: 768px) {
   .top-nav-container {
-    padding: 0 1.5rem;
+    padding: 0 1rem;
+    height: 60px;
+  }
+  .top-nav {
+    height: 44px;
   }
   .left-section {
     width: auto;
+    flex-shrink: 0;
   }
+  /* Hide desktop right section on mobile */
   .right-section {
     display: none;
+  }
+  /* Show mobile right section (profile only) */
+  .mobile-right-section {
+    display: flex;
+    flex-shrink: 0;
   }
   .hamburger-btn {
     display: flex;
@@ -210,29 +240,13 @@ defineEmits(['toggle-sidebar'])
   .search-suggestions {
     display: none;
   }
-  .search-browser-card {
-    width: 230px;
-    height: 38px;
-    padding: 0 4px 0 8px;
-  }
-  .browser-icon-btn {
-    font-size: 1rem;
-    padding: 6px;
-  }
-  .card-divider {
-    margin: 0 8px;
-    height: 16px;
-  }
-  .search-card-icon {
-    font-size: 0.95rem;
-    margin-right: 6px;
-  }
-  .search-card-input {
-    font-size: 0.8rem;
-  }
+  /* Hide search bar on mobile header */
   .center-section {
-    justify-content: flex-end !important;
-    padding-right: 0.5rem;
+    display: none;
+  }
+  .logo-text {
+    display: inline-block;
+    font-size: 1rem;
   }
 }
 

@@ -6,6 +6,8 @@ import MainContent from './components/MainContent.vue'
 import DiscoverContent from './components/DiscoverContent.vue'
 import SidebarRight from './components/SidebarRight.vue'
 import PlayerBar from './components/PlayerBar.vue'
+import MobileNavbar from './components/MobileNavbar.vue'
+import SearchContent from './components/SearchContent.vue'
 
 const isSidebarOpen = ref(false) // Mobile layout drawer state
 const isSidebarCollapsed = ref(false) // Desktop layout collapsed-to-icons state
@@ -44,6 +46,7 @@ const toggleSidebarDesktop = () => {
     />
     <MainContent v-if="activeTab === 'Home'" />
     <DiscoverContent v-else-if="activeTab === 'Discover'" />
+    <SearchContent v-else-if="activeTab === 'Search'" />
     <SidebarRight 
       class="sidebar-right" 
       :isOpen="isQueueOpen"
@@ -52,6 +55,12 @@ const toggleSidebarDesktop = () => {
     <PlayerBar 
       :isQueueActive="isQueueOpen"
       @toggle-queue="isQueueOpen = !isQueueOpen"
+    />
+    <!-- Mobile Bottom Navigation Bar (only shows on mobile) -->
+    <MobileNavbar 
+      :activeTab="activeTab"
+      :isSidebarOpen="isSidebarOpen"
+      @change-tab="activeTab = $event"
     />
   </div>
 </template>
@@ -68,7 +77,7 @@ const toggleSidebarDesktop = () => {
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
-    z-index: 99;
+    z-index: 240; /* Sit above navbar (200) and player (150) but below sidebar (250) */
   }
 }
 </style>

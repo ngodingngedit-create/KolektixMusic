@@ -249,45 +249,111 @@ const toggleFavorite = () => {
 
 @media (max-width: 768px) {
   .player-bar {
-    padding: 0 1.5rem;
-    height: 90px;
+    position: fixed;
+    bottom: 70px; /* Float slightly above the bottom navbar */
+    left: 12px;
+    right: 12px;
+    padding: 0 1rem;
+    height: 64px;
     margin: 0;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
-    background: rgba(18, 18, 18, 0.95);
+    border-top-left-radius: 8px !important;
+    border-top-right-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: rgba(18, 18, 20, 0.85) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    z-index: 150;
+    overflow: hidden; /* Clips the bottom progress bar */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   }
   .utility-controls {
     display: none;
   }
   .song-details {
-    max-width: 45%;
+    max-width: 65%;
+    gap: 0.5rem;
+  }
+  .song-thumbnail {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px;
+    border-radius: 6px;
+  }
+  .song-details h4 {
+    font-size: 0.78rem;
+  }
+  .song-details p {
+    font-size: 0.68rem;
   }
   .player-controls {
-    flex: 1;
-    width: 50%;
+    flex: initial;
+    gap: 0;
+  }
+  .control-buttons {
+    gap: 1.25rem;
+  }
+  .control-buttons .btn-icon {
+    font-size: 1rem;
+  }
+  .play-pause-btn {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--accent-blue) !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+  .play-pause-btn i {
+    font-size: 1.35rem !important;
+    margin: 0 !important;
+  }
+  /* Style skip-forward button (next) */
+  .control-buttons > button:nth-child(4) {
+    color: var(--accent-blue) !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  .control-buttons > button:nth-child(4) i {
+    font-size: 1.35rem !important;
+  }
+  /* Hide shuffle, skip-back & repeat on mobile */
+  .control-buttons > button:first-child,
+  .control-buttons > button:nth-child(2),
+  .control-buttons > button:last-child {
+    display: none;
   }
   .progress-container {
     display: flex;
     position: absolute;
-    top: 0;
+    bottom: 0; /* Positioned at the bottom of the player bar */
     left: 0;
     right: 0;
     width: 100% !important;
     padding: 0;
     gap: 0;
+    z-index: 10;
   }
   .progress-container .time-label {
     display: none;
   }
   .progress-bar {
     border-radius: 0;
-    height: 3px;
+    height: 3px !important;
     margin: 0;
+    background-color: rgba(255, 255, 255, 0.15) !important;
   }
   .progress-fill {
     border-radius: 0;
+    background-color: var(--accent-blue) !important;
+  }
+  /* Favorite button smaller on mobile */
+  .favorite-btn {
+    font-size: 0.95rem;
   }
 }
 .active-queue-btn {

@@ -275,19 +275,20 @@ body {
 @media (max-width: 768px) {
   #app {
     grid-template-columns: 1fr;
-    grid-template-rows: 80px 1fr auto;
+    grid-template-rows: 60px 1fr;
   }
   
   .main-content {
     grid-column: 1;
     grid-row: 2;
+    /* Leave space for fixed player bar (64px) + mobile navbar (58px) */
+    padding-bottom: 130px !important;
+    overflow-y: auto;
   }
-  
 
-  
   .player-bar {
-    grid-column: 1;
-    grid-row: 3;
+    grid-column: unset;
+    grid-row: unset;
   }
 }
 

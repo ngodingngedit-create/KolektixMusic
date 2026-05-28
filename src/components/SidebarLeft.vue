@@ -311,13 +311,13 @@ const libraryItems = [
 @media (max-width: 768px) {
   .sidebar-left {
     position: fixed;
-    top: 80px; /* Aligned below the global HeaderNav on mobile */
+    top: 0; /* Full height from the top */
     left: -260px;
     width: 260px;
-    height: calc(100% - 80px);
+    height: 100%; /* Full height */
     margin: 0;
     border-radius: 0;
-    z-index: 100;
+    z-index: 250; /* Drawer overlays everything */
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     background: rgba(18, 18, 18, 0.98);
