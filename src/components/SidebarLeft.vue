@@ -207,7 +207,11 @@ const libraryItems = [
 
 .nav-menu li.active a {
   background: rgba(255, 255, 255, 0.1);
-  color: var(--text-primary);
+  color: var(--accent-blue) !important;
+}
+
+.nav-menu li.active a i {
+  color: var(--accent-blue) !important;
 }
 
 .library-menu {

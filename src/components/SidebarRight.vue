@@ -110,7 +110,7 @@ const clearQueue = () => {
               </div>
 
               <!-- Duration & Remove Button -->
-              <div class="queue-actions flex items-center gap-2 shrink-0">
+              <div class="queue-actions">
                 <span class="text-xs text-secondary group-hover:hidden">{{ track.duration }}</span>
                 <button 
                   @click="removeFromQueue(track.id)" 
@@ -294,6 +294,18 @@ const clearQueue = () => {
 
 .trash-btn {
   padding: 4px;
+}
+
+.queue-actions {
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.next-up-queue {
+  margin-top: 1rem;
 }
 
 /* List transition animations */

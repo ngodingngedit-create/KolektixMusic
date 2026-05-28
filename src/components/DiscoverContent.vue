@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue'
 
+const emit = defineEmits(['select-album'])
+
 const activeCategory = ref('All')
 const categories = ['All', 'Genres', 'Moods', 'Activities', 'Decades']
 
@@ -34,11 +36,11 @@ const recommendedPlaylists = [
 ]
 
 const newReleases = [
-  { title: 'To the Bone', artist: 'Pamungkas', meta: '10 Songs • 32 Min', img: '/pamungkas.jpg', explicit: true },
-  { title: 'Bila Nanti', artist: 'Nadin Amizah', meta: '1 Song • 4 Min', img: '/nadin.jpg' },
-  { title: 'Lagipula Hidup Akan Berakhir', artist: 'Hindia', meta: '14 Songs • 48 Min', img: '/album_hindia.png', explicit: true },
-  { title: 'Nalar', artist: 'Fiersa Besari', meta: '11 Songs • 37 Min', img: '/pamungkas.jpg' },
-  { title: 'Sialnya, Hidup Harus Tetap Berjalan', artist: 'Bernadya', meta: '13 Songs • 39 Min', img: '/album_bernadya2.png' }
+  { title: 'To the Bone', artist: 'Pamungkas', meta: '1.2M plays', img: '/pamungkas.jpg', explicit: true },
+  { title: 'Bila Nanti', artist: 'Nadin Amizah', meta: '950K plays', img: '/nadin.jpg' },
+  { title: 'Lagipula Hidup Akan Berakhir', artist: 'Hindia', meta: '1.5M plays', img: '/album_hindia.png', explicit: true },
+  { title: 'Nalar', artist: 'Fiersa Besari', meta: '840K plays', img: '/pamungkas.jpg' },
+  { title: 'Sialnya, Hidup Harus Tetap Berjalan', artist: 'Bernadya', meta: '2.1M plays', img: '/album_bernadya2.png' }
 ]
 
 const recommendedScrollContainer = ref(null)
@@ -118,6 +120,7 @@ const scrollRight = (el) => {
             v-for="playlist in recommendedPlaylists" 
             :key="playlist.name" 
             class="playlist-card group cursor-pointer shrink-0"
+            @click="emit('select-album', playlist)"
           >
             <div class="playlist-cover-wrapper relative aspect-square rounded-xl overflow-hidden mb-3">
               <img :src="playlist.img" :alt="playlist.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -162,17 +165,24 @@ const scrollRight = (el) => {
             v-for="item in newReleases" 
             :key="item.title" 
             class="release-card group cursor-pointer shrink-0 flex items-center gap-4"
+            @click="emit('select-album', item)"
           >
-            <div class="release-cover-wrapper w-16 h-16 rounded-lg overflow-hidden shrink-0 relative border border-white/5">
+            <div class="release-cover-wrapper rounded-lg overflow-hidden shrink-0 relative border border-white/5">
               <img :src="item.img" :alt="item.title" class="w-full h-full object-cover" />
               <div class="release-hover-overlay bg-black/40 absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <i class="ph ph-fill ph-play text-white text-xs"></i>
               </div>
             </div>
-            <div class="release-info text-left min-w-0">
-              <h4 class="text-sm font-semibold text-white truncate flex items-center gap-1.5">
-                {{ item.title }}
-                <span v-if="item.explicit" class="explicit-tag">E</span>
+            <div class="release-info text-left min-w-0 flex-1 overflow-hidden">
+              <h4 class="text-sm font-semibold text-white flex items-center gap-1.5 w-full overflow-hidden">
+                <div class="marquee-wrapper flex-1 min-w-0">
+                  <div class="marquee-content" :class="{ 'animate-marquee': item.title.length > 18 }">
+                    <span class="song-title-text">{{ item.title }}</span>
+                    <span v-if="item.title.length > 18" class="track-title-spacer">&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span v-if="item.title.length > 18" class="song-title-text">{{ item.title }}</span>
+                  </div>
+                </div>
+                <span v-if="item.explicit" class="explicit-tag shrink-0">E</span>
               </h4>
               <p class="text-xs text-secondary mt-0.5 truncate">{{ item.artist }}</p>
               <p class="text-[10px] text-secondary mt-1">{{ item.meta }}</p>
@@ -200,7 +210,7 @@ const scrollRight = (el) => {
   overflow-y: auto;
   height: calc(100% - 0.25rem);
   margin: 0.25rem 1.5rem 0 0.25rem;
-  background-color: #0B0E14; /* Deep charcoal discover background */
+  background-color: #1A1A1C; /* Match Home page background color (#1A1A1C) */
   border: 1px solid var(--border-color);
   border-bottom: none;
   border-radius: 5px 5px 0 0;
@@ -412,6 +422,12 @@ const scrollRight = (el) => {
   transform: translateY(-2px);
 }
 
+.release-cover-wrapper {
+  width: 78px !important;
+  height: 78px !important;
+  border-radius: 8px !important;
+}
+
 .explicit-tag {
   background-color: rgba(255, 255, 255, 0.12);
   color: var(--text-secondary);
@@ -424,6 +440,38 @@ const scrollRight = (el) => {
   justify-content: center;
   height: 12px;
   line-height: 1;
+}
+
+/* Infinity Loop Marquee styles for song list */
+.marquee-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  display: block;
+}
+
+.marquee-content {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.animate-marquee {
+  animation: marquee 12s linear infinite;
+}
+
+.track-title-spacer {
+  color: var(--text-secondary);
+  opacity: 0.4;
+  font-size: 0.75rem;
+  display: inline-block;
+}
+
+@keyframes marquee {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 /* Responsive Breakpoints */
@@ -446,7 +494,7 @@ const scrollRight = (el) => {
     height: 100%;
     border: none;
     border-radius: 0;
-    background-color: #0B0E14; /* Deep discover background on mobile */
+    background-color: #1A1A1C; /* Match Home page background color on mobile (#1A1A1C) */
   }
 
   .discover-title {
@@ -474,6 +522,11 @@ const scrollRight = (el) => {
 
   .playlist-card {
     width: 140px;
+  }
+
+  .release-cover-wrapper {
+    width: 68px !important;
+    height: 68px !important;
   }
 
   .release-card {

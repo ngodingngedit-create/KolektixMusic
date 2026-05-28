@@ -31,13 +31,9 @@ const navItems = [
       @click="$emit('change-tab', item.name)"
     >
       <!-- Home uses the Kolektix logo SVG -->
+      <!-- Home uses the logo (2).png image -->
       <span v-if="item.isLogo" class="mobile-nav-icon kolektix-logo-wrap">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 48 46" fill="none" class="kolektix-logo-svg">
-          <path
-            :fill="activeTab === 'Home' ? '#2563EB' : '#9CA3AF'"
-            d="M25.946 44.938c-.664.845-2.021.375-2.021-.698V33.937a2.26 2.26 0 0 0-2.262-2.262H10.287c-.92 0-1.456-1.04-.92-1.788l7.48-10.471c1.07-1.497 0-3.578-1.842-3.578H1.237c-.92 0-1.456-1.04-.92-1.788L10.013.474c.214-.297.556-.474.92-.474h28.894c.92 0 1.456 1.04.92 1.788l-7.48 10.471c-1.07 1.498 0 3.579 1.842 3.579h11.377c.943 0 1.473 1.088.89 1.83L25.947 44.94z"
-          />
-        </svg>
+        <img src="/logo/logo (2).png" alt="Kolektix Logo" class="mobile-logo-img" />
       </span>
       <span v-else class="mobile-nav-icon">
         <i class="ph" :class="item.icon"></i>
@@ -64,7 +60,7 @@ const navItems = [
     left: 0;
     right: 0;
     z-index: 200;
-    height: 58px;
+    height: 62px;
     background: rgba(14, 14, 16, 0.6) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
@@ -113,7 +109,7 @@ const navItems = [
     justify-content: center;
     font-size: 1.25rem;
     line-height: 1;
-    height: 24px;
+    height: 32px; /* Increased to accommodate larger logo */
     transition: transform 0.2s ease;
   }
 
@@ -122,17 +118,21 @@ const navItems = [
   }
 
   .kolektix-logo-wrap {
-    width: 24px;
-    height: 24px;
+    width: 42px;
+    height: 42px;
   }
 
-  .kolektix-logo-svg {
-    display: block;
-    transition: filter 0.2s ease;
+  .mobile-logo-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: all 0.2s ease;
+    filter: brightness(0) invert(0.65) opacity(0.65); /* Matches inactive color (#9CA3AF) precisely */
   }
 
-  .mobile-nav-btn.active .kolektix-logo-svg {
-    filter: drop-shadow(0 0 6px rgba(37, 99, 235, 0.5));
+  .mobile-nav-btn.active .mobile-logo-img {
+    filter: none;
+    opacity: 1;
   }
 
   .mobile-nav-label {

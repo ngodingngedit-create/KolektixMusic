@@ -1,19 +1,14 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { playerState } from '../playerState.js'
 
 defineProps({
   isQueueActive: Boolean
 })
 defineEmits(['toggle-queue'])
 
-const isPlaying = ref(false)
 const isMuted = ref(false)
 const isFavorited = ref(true)
-
-const duration = ref(225) // 3:45 in seconds
-const currentTime = ref(84) // 1:24 in seconds
-
-const volume = ref(70)
 const preMuteVolume = ref(70)
 const isHoveringVolume = ref(false)
 let volumeTimeout = null
@@ -25,7 +20,8 @@ const formatTime = (secs) => {
 }
 
 const progressPercent = computed(() => {
-  return (currentTime.value / duration.value) * 100
+  if (!playerState.duration) return 0
+  return (playerState.currentTime / playerState.duration) * 100
 })
 
 const seekProgress = (event) => {
@@ -33,7 +29,8 @@ const seekProgress = (event) => {
   const clickX = event.clientX - rect.left
   const width = rect.width
   const pct = Math.max(0, Math.min(1, clickX / width))
-  currentTime.value = Math.floor(pct * duration.value)
+  const newSeconds = Math.floor(pct * playerState.duration)
+  playerState.seek(newSeconds)
 }
 
 const setVolume = (event) => {
@@ -41,8 +38,9 @@ const setVolume = (event) => {
   const clickX = event.clientX - rect.left
   const width = rect.width
   const pct = Math.max(0, Math.min(1, clickX / width))
-  volume.value = Math.round(pct * 100)
-  isMuted.value = volume.value === 0
+  const newVol = Math.round(pct * 100)
+  playerState.setVolume(newVol)
+  isMuted.value = newVol === 0
   
   // Show percentage immediately on adjust, auto hide after 1.5s
   isHoveringVolume.value = true
@@ -53,17 +51,16 @@ const setVolume = (event) => {
 }
 
 const togglePlay = () => {
-  isPlaying.value = !isPlaying.value
+  playerState.toggle()
 }
 
 const toggleMute = () => {
   if (isMuted.value) {
     isMuted.value = false
-    if (volume.value === 0) {
-      volume.value = preMuteVolume.value || 70
-    }
+    playerState.setVolume(preMuteVolume.value || 70)
   } else {
-    preMuteVolume.value = volume.value
+    preMuteVolume.value = playerState.volume
+    playerState.setVolume(0)
     isMuted.value = true
   }
 }
@@ -78,11 +75,11 @@ const toggleFavorite = () => {
     <!-- Left: Song details -->
     <div class="song-details flex items-center gap-4">
       <div class="song-thumbnail w-14 h-14 rounded-md overflow-hidden bg-gray-600">
-        <img src="/pamungkas.jpg" alt="To the Bone" class="w-full h-full object-cover"/>
+        <img :src="playerState.currentTrack.img" :alt="playerState.currentTrack.title" class="w-full h-full object-cover"/>
       </div>
       <div>
-        <h4 class="text-sm font-semibold">To the Bone</h4>
-        <p class="text-xs text-secondary mt-0.5">Pamungkas</p>
+        <h4 class="text-sm font-semibold">{{ playerState.currentTrack.title }}</h4>
+        <p class="text-xs text-secondary mt-0.5">{{ playerState.currentTrack.artist }}</p>
       </div>
       <button @click="toggleFavorite" class="btn-icon text-lg ml-2 favorite-btn" :class="{ 'favorited': isFavorited }">
         <i v-if="isFavorited" class="ph ph-fill ph-heart text-red-500"></i>
@@ -94,17 +91,17 @@ const toggleFavorite = () => {
     <div class="player-controls flex flex-col items-center gap-3">
       <div class="control-buttons flex items-center gap-6">
         <button class="btn-icon text-lg"><i class="ph ph-shuffle"></i></button>
-        <button class="btn-icon text-xl"><i class="ph ph-skip-back"></i></button>
+        <button @click="playerState.prev()" class="btn-icon text-xl"><i class="ph ph-skip-back"></i></button>
         <button @click="togglePlay" class="play-pause-btn flex items-center justify-center bg-accent-blue hover:bg-accent-blue-hover text-white rounded-full w-10 h-10 transition-transform hover:scale-105">
-          <i v-if="isPlaying" class="ph ph-fill ph-pause text-xl"></i>
+          <i v-if="playerState.isPlaying" class="ph ph-fill ph-pause text-xl"></i>
           <i v-else class="ph ph-fill ph-play text-xl ml-0.5"></i>
         </button>
-        <button class="btn-icon text-xl"><i class="ph ph-skip-forward"></i></button>
+        <button @click="playerState.next()" class="btn-icon text-xl"><i class="ph ph-skip-forward"></i></button>
         <button class="btn-icon text-lg"><i class="ph ph-repeat"></i></button>
       </div>
       
       <div class="progress-container flex items-center gap-3">
-        <span class="time-label text-xs text-secondary">{{ formatTime(currentTime) }}</span>
+        <span class="time-label text-xs text-secondary">{{ formatTime(playerState.currentTime) }}</span>
         <div 
           class="progress-bar flex-1 bg-white/10 rounded-full relative cursor-pointer group"
           @click="seekProgress"
@@ -116,7 +113,7 @@ const toggleFavorite = () => {
             <div class="progress-handle absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-md"></div>
           </div>
         </div>
-        <span class="time-label text-xs text-secondary">{{ formatTime(duration) }}</span>
+        <span class="time-label text-xs text-secondary">{{ formatTime(playerState.duration) }}</span>
       </div>
     </div>
 
@@ -139,8 +136,8 @@ const toggleFavorite = () => {
         @mouseleave="isHoveringVolume = false"
       >
         <button @click="toggleMute" class="btn-icon text-sm font-semibold w-8 h-8 flex items-center justify-center shrink-0">
-          <span v-if="isHoveringVolume" class="text-xs font-bold text-accent">{{ isMuted ? '0%' : `${volume}%` }}</span>
-          <i v-else-if="isMuted || volume === 0" class="ph ph-speaker-slash text-lg"></i>
+          <span v-if="isHoveringVolume" class="text-xs font-bold text-accent">{{ isMuted ? '0%' : `${playerState.volume}%` }}</span>
+          <i v-else-if="isMuted || playerState.volume === 0" class="ph ph-speaker-slash text-lg"></i>
           <i v-else class="ph ph-speaker-high text-lg"></i>
         </button>
         <div 
@@ -149,7 +146,7 @@ const toggleFavorite = () => {
         >
           <div 
             class="volume-fill bg-accent-blue rounded-full" 
-            :style="{ width: isMuted ? '0%' : volume + '%' }"
+            :style="{ width: isMuted ? '0%' : playerState.volume + '%' }"
           >
             <div class="volume-handle absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-md"></div>
           </div>

@@ -281,8 +281,8 @@ body {
   .main-content {
     grid-column: 1;
     grid-row: 2;
-    /* Leave space for fixed player bar (64px) + mobile navbar (58px) */
-    padding-bottom: 130px !important;
+    /* Leave space for fixed player bar (64px) + mobile navbar (62px) */
+    padding-bottom: 134px !important;
     overflow-y: auto;
   }
 

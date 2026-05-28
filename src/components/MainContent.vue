@@ -1,8 +1,12 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 
 const mixesGridRef = ref(null)
 const recentGridRef = ref(null)
+const albumsGridRef = ref(null)
+const liveGridRef = ref(null)
+
+const emit = defineEmits(['select-album'])
 
 const activeCategory = ref('All')
 const categories = [
@@ -281,6 +285,30 @@ const scrollRecentRight = () => {
   }
 }
 
+const scrollAlbumsLeft = () => {
+  if (albumsGridRef.value) {
+    albumsGridRef.value.scrollBy({ left: -320, behavior: 'smooth' })
+  }
+}
+
+const scrollAlbumsRight = () => {
+  if (albumsGridRef.value) {
+    albumsGridRef.value.scrollBy({ left: 320, behavior: 'smooth' })
+  }
+}
+
+const scrollLiveLeft = () => {
+  if (liveGridRef.value) {
+    liveGridRef.value.scrollBy({ left: -320, behavior: 'smooth' })
+  }
+}
+
+const scrollLiveRight = () => {
+  if (liveGridRef.value) {
+    liveGridRef.value.scrollBy({ left: 320, behavior: 'smooth' })
+  }
+}
+
 const madeForYou = [
   {
     id: 1,
@@ -462,6 +490,126 @@ onUnmounted(() => {
     previewAudio = null
   }
 })
+
+const artistAlbums = [
+  {
+    title: 'Lagipula Hidup Akan Berakhir',
+    artist: 'Hindia',
+    img: '/album_hindia.png',
+    genre: 'Indie',
+    songs: '14 Songs',
+    duration: '48 Min',
+    year: '2023',
+    releasedDate: '30 Nov 2023',
+    streams: '1.2M Streams',
+    likes: '98K Likes',
+    color: '#2563EB'
+  },
+  {
+    title: 'To the Bone',
+    artist: 'Pamungkas',
+    img: '/pamungkas.jpg',
+    genre: 'Indie/Pop',
+    songs: '10 Songs',
+    duration: '32 Min',
+    year: '2020',
+    releasedDate: '01 Jun 2020',
+    streams: '2.5M Streams',
+    likes: '120K Likes',
+    color: '#997D30'
+  },
+  {
+    title: 'Bila Nanti',
+    artist: 'Nadin Amizah',
+    img: '/nadin.jpg',
+    genre: 'Indie/Folk',
+    songs: '12 Songs',
+    duration: '42 Min',
+    year: '2020',
+    releasedDate: '28 May 2020',
+    streams: '1.8M Streams',
+    likes: '85K Likes',
+    color: '#4E6E5D'
+  },
+  {
+    title: 'Sialnya, Hidup Harus Tetap Berjalan',
+    artist: 'Bernadya',
+    img: '/album_bernadya2.png',
+    genre: 'Pop/Folk',
+    songs: '10 Songs',
+    duration: '35 Min',
+    year: '2024',
+    releasedDate: '24 Jun 2024',
+    streams: '3.1M Streams',
+    likes: '190K Likes',
+    color: '#2E1C40'
+  },
+  {
+    title: 'Berhati',
+    artist: 'Sal Priadi',
+    img: '/album_sal_priadi.png',
+    genre: 'Pop/Indie',
+    songs: '11 Songs',
+    duration: '39 Min',
+    year: '2020',
+    releasedDate: '20 Feb 2020',
+    streams: '920K Streams',
+    likes: '55K Likes',
+    color: '#8F3E33'
+  },
+  {
+    title: 'Fabula',
+    artist: 'Mahalini',
+    img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=250&h=250',
+    genre: 'Pop',
+    songs: '10 Songs',
+    duration: '34 Min',
+    year: '2023',
+    releasedDate: '23 Jan 2023',
+    streams: '4.2M Streams',
+    likes: '240K Likes',
+    color: '#A06AF2'
+  },
+  {
+    title: 'Selamat Ulang Tahun',
+    artist: 'Nadin Amizah',
+    img: '/nadin.jpg',
+    genre: 'Indie/Folk',
+    songs: '10 Songs',
+    duration: '38 Min',
+    year: '2020',
+    releasedDate: '28 May 2020',
+    streams: '3.5M Streams',
+    likes: '185K Likes',
+    color: '#4E6E5D'
+  },
+  {
+    title: 'Menari Dengan Bayangan',
+    artist: 'Hindia',
+    img: '/album_hindia.png',
+    genre: 'Indie/Rock',
+    songs: '12 Songs',
+    duration: '45 Min',
+    year: '2019',
+    releasedDate: '29 Nov 2019',
+    streams: '5.1M Streams',
+    likes: '320K Likes',
+    color: '#8C3F2B'
+  },
+  {
+    title: 'Sialnya, Hidup Harus Tetap Berjalan (Deluxe)',
+    artist: 'Bernadya',
+    img: '/album_bernadya2.png',
+    genre: 'Pop',
+    songs: '13 Songs',
+    duration: '46 Min',
+    year: '2024',
+    releasedDate: '15 Aug 2024',
+    streams: '1.5M Streams',
+    likes: '95K Likes',
+    color: '#2E1C40'
+  }
+]
 </script>
 
 <template>
@@ -505,12 +653,18 @@ onUnmounted(() => {
         </div>
 
         <!-- Mobile actions: displayed only below photo on mobile -->
-        <div class="hero-actions mobile-actions flex gap-3">
-          <button class="btn btn-primary flex-1">
-            <i class="ph ph-fill ph-play text-sm"></i> Play
-          </button>
-          <button class="btn btn-outline flex-1">Follow</button>
-          <button class="btn btn-outline px-3"><i class="ph ph-dots-three text-lg"></i></button>
+        <div class="hero-actions mobile-actions">
+          <!-- Play button row -->
+          <div class="mobile-play-row">
+            <button class="btn btn-primary mobile-play-btn">
+              <i class="ph ph-fill ph-play text-sm"></i> Play
+            </button>
+          </div>
+          <!-- Follow + dots row -->
+          <div class="mobile-secondary-row">
+            <button class="btn btn-outline mobile-follow-btn">Follow</button>
+            <button class="btn btn-outline mobile-dots-btn"><i class="ph ph-dots-three text-lg"></i></button>
+          </div>
         </div>
 
         <!-- Right side: Latest Release -->
@@ -591,6 +745,7 @@ onUnmounted(() => {
             :key="mix.title" 
             class="mix-card group cursor-pointer shrink-0"
             :style="{ '--mix-color': mix.color }"
+            @click="emit('select-album', mix)"
           >
             <!-- Card Image Area (top part) -->
             <div class="card-img-area">
@@ -686,7 +841,7 @@ onUnmounted(() => {
       </div>
       <div class="recently-played-wrapper relative">
         <div ref="recentGridRef" class="recently-played-grid flex overflow-x-auto gap-6 pb-4">
-          <div v-for="item in recentlyPlayed" :key="item.name" class="recent-card group cursor-pointer shrink-0">
+          <div v-for="item in recentlyPlayed" :key="item.name" class="recent-card group cursor-pointer shrink-0" @click="emit('select-album', item)">
             <div class="img-wrapper relative rounded-lg overflow-hidden mb-3 aspect-square">
               <img :src="item.img" :alt="item.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
               <!-- Play Button Overlay -->
@@ -719,6 +874,7 @@ onUnmounted(() => {
           v-for="card in madeForYou" 
           :key="card.id" 
           class="video-card group cursor-pointer"
+          :style="{ '--glow-color': card.logoBg }"
         >
           <!-- Background Video (Muted, looping, auto-playing) -->
           <video 
@@ -735,44 +891,52 @@ onUnmounted(() => {
           <!-- Gradient Overlay -->
           <div class="card-video-overlay"></div>
           
-          <!-- Top Left Info Header -->
-          <div class="card-top-left">
-            <div class="mini-artwork" :style="{ backgroundColor: card.logoBg }">
-              <img :src="card.miniImg" />
-            </div>
-            <div class="card-title-wrapper">
-              <h4 class="video-card-title">{{ card.title }}</h4>
-              <p class="video-card-subtitle">{{ card.subtitle }}</p>
-            </div>
-          </div>
-          
-          <!-- Bottom Left Description -->
-          <div class="card-bottom-left">
-            <p class="video-card-desc">{{ card.description }}</p>
+          <!-- Floating Interactive Tag (Top Right) -->
+          <div class="card-tag">
+            <span class="pulse-dot"></span>
+            <span>INTERACTIVE</span>
           </div>
 
-          <!-- Bottom Control Overlay (appears on hover) -->
-          <div class="card-controls">
-            <!-- Left Side: Preview Button -->
-            <button 
-              @click.stop="togglePreview(card)" 
-              class="btn-preview"
-            >
-              <i class="ph" :class="activePreviewId === card.id ? 'ph-waveform active-wave-icon' : 'ph-headphones'"></i>
-              <span>{{ activePreviewId === card.id ? 'Stop Preview' : 'Preview' }}</span>
-            </button>
-
-            <!-- Right Side: Play and More Buttons -->
-            <div class="controls-right">
-              <button class="btn-more-icon">
-                <i class="ph ph-dots-three"></i>
+          <!-- Glass Control Card (Bottom) -->
+          <div class="glass-control-panel flex flex-col">
+            <!-- Header Row: Artwork + Title -->
+            <div class="flex items-center gap-3">
+              <div class="mini-artwork shrink-0" :style="{ boxShadow: '0 0 10px ' + card.logoBg }">
+                <img :src="card.miniImg" />
+              </div>
+              <div class="min-w-0 flex-1">
+                <h4 class="video-card-title truncate">{{ card.title }}</h4>
+                <p class="video-card-subtitle mt-0.5">{{ card.subtitle }}</p>
+              </div>
+            </div>
+            
+            <!-- Description -->
+            <p class="video-card-desc mt-2.5">{{ card.description }}</p>
+            
+            <!-- Action Row (Expands/Fades in on Hover) -->
+            <div class="action-row flex items-center justify-between mt-3">
+              <!-- Preview Pill -->
+              <button 
+                @click.stop="togglePreview(card)" 
+                class="btn-glass-preview flex items-center gap-1.5"
+                :class="{ 'preview-active': activePreviewId === card.id }"
+              >
+                <i class="ph" :class="activePreviewId === card.id ? 'ph-waveform' : 'ph-headphones'"></i>
+                <span>{{ activePreviewId === card.id ? 'Stop' : 'Preview' }}</span>
               </button>
-              <button class="btn-more-icon">
-                <i class="ph ph-plus"></i>
-              </button>
-              <button class="btn-video-play">
-                <i class="ph ph-fill ph-play"></i>
-              </button>
+              
+              <!-- Standard Actions -->
+              <div class="flex items-center gap-2">
+                <button class="btn-glass-circle" title="More options">
+                  <i class="ph ph-dots-three text-lg"></i>
+                </button>
+                <button class="btn-glass-circle" title="Add to Library">
+                  <i class="ph ph-plus text-base"></i>
+                </button>
+                <button class="btn-glass-play" title="Play Playlist">
+                  <i class="ph ph-fill ph-play text-xs"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -785,25 +949,22 @@ onUnmounted(() => {
         <h3 class="text-xl font-bold flex items-center gap-2">Live Sessions & Concerts</h3>
       </div>
       <div class="live-sessions-wrapper relative">
-        <div class="live-sessions-grid flex overflow-x-auto gap-6 pb-4">
+        <div ref="liveGridRef" class="live-sessions-grid flex overflow-x-auto gap-6 pb-4 scrollbar-hide">
           <div 
             v-for="session in liveSessions" 
             :key="session.title" 
             class="ticket-card shrink-0"
             :style="{ '--ticket-color': session.color }"
           >
-            <!-- Main Ticket Body (Left) -->
+            <!-- Main Ticket Body (Left): Artist name on top, rectangular image below -->
             <div class="ticket-main">
+              <span class="ticket-artist-name">{{ session.artist }}</span>
               <div class="ticket-art-wrapper">
                 <img :src="session.img" :alt="session.title" class="ticket-art" />
                 <div class="ticket-art-overlay"></div>
                 <div class="ticket-play-icon">
                   <i class="ph ph-fill ph-play text-white"></i>
                 </div>
-              </div>
-              <div class="ticket-info">
-                <span class="ticket-artist-name">{{ session.artist }}</span>
-                <h4 class="ticket-album-title">{{ session.title }}</h4>
               </div>
             </div>
             
@@ -814,19 +975,45 @@ onUnmounted(() => {
               <div class="punch-hole punch-bottom"></div>
             </div>
             
-            <!-- Ticket Stub (Right) -->
+            <!-- Ticket Stub (Right): Event name, date, location left-aligned -->
             <div class="ticket-stub">
-              <div class="stub-badge" :style="{ backgroundColor: session.color }">{{ session.type }}</div>
-              <div class="stub-datetime">
-                <span class="stub-date">{{ session.date.split(' ')[0] }} {{ session.date.split(' ')[1] }}</span>
-                <span class="stub-year">{{ session.date.split(' ')[2] }}</span>
+              <!-- Event Name & Badge -->
+              <div class="w-full flex flex-col gap-1 min-w-0">
+                <div class="stub-badge" :style="{ backgroundColor: session.color }">{{ session.type }}</div>
+                <h4 class="ticket-album-title truncate mt-1" :title="session.title">{{ session.title }}</h4>
               </div>
-              <div class="stub-venue">
-                <span class="venue-name">{{ session.venue }}</span>
-                <span class="venue-city">{{ session.location }}</span>
+
+              <!-- Date -->
+              <div class="w-full flex items-center gap-2 min-w-0 text-white">
+                <i class="ph ph-calendar-blank text-xs shrink-0" style="color: var(--text-secondary);"></i>
+                <div class="marquee-wrapper flex-1">
+                  <div class="marquee-content" :class="{ 'animate-marquee': session.date.length > 20 }">
+                    <span class="stub-date">{{ session.date }}</span>
+                    <span v-if="session.date.length > 20" class="track-title-spacer">&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span v-if="session.date.length > 20" class="stub-date">{{ session.date }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Location -->
+              <div class="w-full flex items-center gap-2 min-w-0 text-white">
+                <i class="ph ph-map-pin text-xs shrink-0" style="color: var(--text-secondary);"></i>
+                <div class="marquee-wrapper flex-1">
+                  <div class="marquee-content" :class="{ 'animate-marquee': (session.venue + ', ' + session.location).length > 20 }">
+                    <span class="venue-name">{{ session.venue }}, {{ session.location }}</span>
+                    <span v-if="(session.venue + ', ' + session.location).length > 20" class="track-title-spacer">&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span v-if="(session.venue + ', ' + session.location).length > 20" class="venue-name">{{ session.venue }}, {{ session.location }}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+        <div @click="scrollLiveLeft" class="scroll-arrow scroll-arrow-left flex items-center justify-center rounded-full bg-black/60 border border-white/10 backdrop-blur-md cursor-pointer hover:bg-black/80 transition-colors">
+          <i class="ph ph-caret-left text-lg"></i>
+        </div>
+        <div @click="scrollLiveRight" class="scroll-arrow scroll-arrow-right flex items-center justify-center rounded-full bg-black/60 border border-white/10 backdrop-blur-md cursor-pointer hover:bg-black/80 transition-colors">
+          <i class="ph ph-caret-right text-lg"></i>
         </div>
       </div>
     </section>
@@ -875,70 +1062,40 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <!-- Commentary Cassettes Section -->
-    <section class="mb-10 commentary-cassette-section">
+    <!-- Albums by Featured Artists Section -->
+    <section class="mb-10 albums-section">
       <div class="section-header flex justify-between items-center mb-6">
-        <h3 class="text-xl font-bold flex items-center gap-2">Commentary Cassettes (3D Flip)</h3>
+        <h3 class="text-xl font-bold flex items-center gap-2">
+          <i class="ph ph-vinyl text-[#2563EB]"></i> Albums by Artists
+        </h3>
       </div>
-      <div class="commentary-cassette-wrapper relative">
-        <div class="commentary-cassette-grid flex overflow-x-auto gap-6 pb-4">
+      <div class="albums-container-wrapper relative">
+        <div ref="albumsGridRef" class="albums-grid-scroll flex overflow-x-auto gap-3 pb-4 scrollbar-hide">
           <div 
-            v-for="cassette in commentaryCassettes" 
-            :key="cassette.title" 
-            class="cassette-card shrink-0"
+            v-for="album in artistAlbums" 
+            :key="album.title" 
+            class="album-card group cursor-pointer shrink-0"
+            @click="emit('select-album', album)"
           >
-            <div class="cassette-card-inner">
-              <!-- Front Side: Cassette Cover Art -->
-              <div class="cassette-front" :style="{ '--tape-bg': cassette.bgColor }">
-                <div class="cassette-shell">
-                  <div class="cassette-label-sticker">
-                    <div class="sticker-top">
-                      <span class="sticker-side">A</span>
-                      <span class="sticker-logo">KOLEKTIX</span>
-                    </div>
-                    <div class="sticker-window">
-                      <div class="window-spool left-spool"><div class="spool-teeth"></div></div>
-                      <div class="window-tape"></div>
-                      <div class="window-spool right-spool"><div class="spool-teeth"></div></div>
-                    </div>
-                    <div class="sticker-bottom">
-                      <h4 class="cassette-label-title">{{ cassette.title }}</h4>
-                      <p class="cassette-label-artist">{{ cassette.artist }}</p>
-                    </div>
-                  </div>
-                  <!-- Bottom shell details -->
-                  <div class="cassette-bottom-trap">
-                    <div class="trap-hole"></div>
-                    <div class="trap-hole"></div>
-                  </div>
-                </div>
+            <div class="album-img-wrapper relative rounded-lg overflow-hidden aspect-square mb-2.5">
+              <img :src="album.img" :alt="album.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <div class="play-btn-overlay absolute bottom-2.5 right-2.5 w-8 h-8 bg-[#2563EB] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg">
+                <i class="ph ph-fill ph-play text-white text-xs ml-0.5"></i>
               </div>
-              
-              <!-- Back Side: Cassette Commentary Details & Tracklist -->
-              <div class="cassette-back">
-                <div class="cassette-back-content flex flex-col justify-between h-full p-4">
-                  <div class="back-header">
-                    <span class="text-[10px] text-accent uppercase font-bold tracking-wider">Commentary B-Side</span>
-                    <h5 class="text-sm font-bold text-white truncate mt-0.5">{{ cassette.title }}</h5>
-                  </div>
-                  
-                  <!-- Small tracklist of voice notes/commentary -->
-                  <ul class="cassette-tracks flex flex-col gap-1.5 my-3">
-                    <li v-for="track in cassette.tracks" :key="track" class="text-[11px] text-secondary truncate">
-                      {{ track }}
-                    </li>
-                  </ul>
-                  
-                  <div class="back-footer flex justify-between items-center pt-2 border-t border-white/5">
-                    <span class="text-[10px] text-secondary">Total: {{ cassette.totalTime }}</span>
-                    <button class="btn btn-primary py-1 px-3 text-[10px] flex items-center gap-1">
-                      <i class="ph ph-fill ph-play"></i> Play Tape
-                    </button>
-                  </div>
-                </div>
+              <!-- Small logo badge -->
+              <div class="album-badge-mini absolute top-2 left-2 flex items-center justify-center w-4 h-4 rounded-full bg-[#2563EB]/80 text-[8px] text-white font-black">
+                k
               </div>
             </div>
+            <h4 class="text-xs font-bold truncate text-white group-hover:text-[#2563EB] transition-colors">{{ album.title }}</h4>
+            <p class="text-[10px] text-secondary mt-0.5 truncate">{{ album.artist }} • {{ album.year }}</p>
           </div>
+        </div>
+        <div @click="scrollAlbumsLeft" class="scroll-arrow scroll-arrow-left flex items-center justify-center rounded-full bg-black/60 border border-white/10 backdrop-blur-md cursor-pointer hover:bg-black/80 transition-colors">
+          <i class="ph ph-caret-left text-lg"></i>
+        </div>
+        <div @click="scrollAlbumsRight" class="scroll-arrow scroll-arrow-right flex items-center justify-center rounded-full bg-black/60 border border-white/10 backdrop-blur-md cursor-pointer hover:bg-black/80 transition-colors">
+          <i class="ph ph-caret-right text-lg"></i>
         </div>
       </div>
     </section>
@@ -1332,13 +1489,13 @@ onUnmounted(() => {
 }
 
 /* Mixes Section Layout */
-.mixes-container-wrapper, .recently-played-wrapper {
+.mixes-container-wrapper, .recently-played-wrapper, .live-sessions-wrapper, .albums-container-wrapper {
   position: relative;
   width: auto;
   margin-right: -1.5rem;
 }
 
-.mixes-grid, .recently-played-grid {
+.mixes-grid, .recently-played-grid, .live-sessions-grid, .albums-grid-scroll {
   width: 100%;
   scroll-behavior: smooth;
   overflow-x: auto;
@@ -1518,7 +1675,9 @@ onUnmounted(() => {
 }
 
 .mixes-container-wrapper:hover .scroll-arrow,
-.recently-played-wrapper:hover .scroll-arrow {
+.recently-played-wrapper:hover .scroll-arrow,
+.live-sessions-wrapper:hover .scroll-arrow,
+.albums-container-wrapper:hover .scroll-arrow {
   opacity: 1;
   pointer-events: auto;
 }
@@ -1596,10 +1755,50 @@ onUnmounted(() => {
 
   .mobile-actions {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
     margin-top: 1.5rem;
     width: 100%;
     order: 3;
     padding: 0 1.5rem;
+  }
+
+  .mobile-play-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .mobile-play-btn {
+    min-width: 180px;
+    padding-left: 2.5rem !important;
+    padding-right: 2.5rem !important;
+    justify-content: center;
+  }
+
+  .mobile-secondary-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mobile-follow-btn {
+    min-width: 140px;
+    justify-content: center;
+  }
+
+  .mobile-dots-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none !important;
+    background: transparent !important;
   }
 
   .hero-image-wrapper {
@@ -1720,11 +1919,53 @@ onUnmounted(() => {
     display: none; /* Hide scroll navigation arrows on touch screens */
   }
 
-  .mixes-grid, .recently-played-grid {
+  .mixes-grid, .recently-played-grid, .live-sessions-grid, .albums-grid-scroll {
     padding-bottom: 0.5rem;
   }
-  .mixes-container-wrapper, .recently-played-wrapper {
+  .mixes-container-wrapper, .recently-played-wrapper, .live-sessions-wrapper, .albums-container-wrapper {
     margin-right: -1rem;
+  }
+  .albums-container-wrapper {
+    max-width: none;
+  }
+  .album-card {
+    width: 125px;
+    padding: 8px;
+  }
+  .album-card h4 {
+    font-size: 0.75rem;
+  }
+  .album-card p {
+    font-size: 0.65rem;
+  }
+
+  /* Responsive Ticket Card styles on mobile */
+  .ticket-card {
+    width: 310px !important;
+    height: 150px !important;
+  }
+  .ticket-art-wrapper {
+    width: 115px !important;
+    height: 75px !important;
+  }
+  .ticket-artist-name {
+    font-size: 0.65rem !important;
+  }
+  .ticket-stub {
+    padding: 10px 12px !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+  }
+  .ticket-main {
+    padding: 10px 12px !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+  }
+  .ticket-album-title {
+    font-size: 0.8rem !important;
+  }
+  .stub-date, .venue-name {
+    font-size: 0.7rem !important;
   }
 }
 
@@ -1810,11 +2051,17 @@ onUnmounted(() => {
 .video-card {
   position: relative;
   height: 360px;
-  border-radius: 12px;
+  border-radius: 16px;
   border: 1px solid var(--border-color);
   background-color: #1A1A1C;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease;
+}
+
+.video-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px var(--glow-color);
 }
 
 .card-video-bg {
@@ -1824,43 +2071,83 @@ onUnmounted(() => {
   height: 100%;
   object-fit: cover;
   z-index: 1;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .video-card:hover .card-video-bg {
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
 .card-video-overlay {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(to bottom, rgba(18, 18, 18, 0.6) 0%, rgba(18, 18, 18, 0.2) 50%, rgba(18, 18, 18, 0.95) 100%);
+  background: linear-gradient(to bottom, rgba(18, 18, 18, 0.4) 0%, rgba(18, 18, 18, 0.1) 40%, rgba(18, 18, 18, 0.85) 100%);
   transition: background 0.3s ease;
 }
 
 .video-card:hover .card-video-overlay {
-  background: linear-gradient(to bottom, rgba(18, 18, 18, 0.4) 0%, rgba(18, 18, 18, 0.1) 40%, rgba(18, 18, 18, 0.98) 100%);
+  background: linear-gradient(to bottom, rgba(18, 18, 18, 0.3) 0%, rgba(18, 18, 18, 0.05) 30%, rgba(18, 18, 18, 0.9) 100%);
 }
 
-.card-top-left {
+/* Floating tag */
+.card-tag {
   position: absolute;
-  top: 16px;
-  left: 16px;
-  right: 16px;
+  top: 12px;
+  right: 12px;
   z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 9999px;
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.05em;
+}
+
+.pulse-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #10B981;
+  box-shadow: 0 0 8px #10B981;
+  animation: pulse-dot-anim 1.2s infinite alternate;
+}
+
+@keyframes pulse-dot-anim {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(1.2); opacity: 1; }
+}
+
+/* Glass control panel */
+.glass-control-panel {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(18, 18, 18, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 10;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mini-artwork {
-  width: 40px;
-  height: 40px;
-  border-radius: 6px;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
   overflow: hidden;
-  flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: transform 0.3s ease;
 }
 
 .mini-artwork img {
@@ -1869,148 +2156,110 @@ onUnmounted(() => {
   object-fit: cover;
 }
 
-.card-title-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
 .video-card-title {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #FFFFFF;
   line-height: 1.2;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .video-card-subtitle {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-secondary);
   line-height: 1.2;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-}
-
-.card-bottom-left {
-  position: absolute;
-  bottom: 60px;
-  left: 16px;
-  right: 16px;
-  z-index: 10;
-  transition: opacity 0.25s ease;
 }
 
 .video-card-desc {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-secondary);
   font-weight: 500;
   line-height: 1.4;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
-.video-card:hover .card-bottom-left {
+.action-row {
+  max-height: 0;
   opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, margin-top 0.3s ease;
 }
 
-/* Control buttons style */
-.card-controls {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  right: 16px;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.video-card:hover .card-controls {
+.video-card:hover .action-row {
+  max-height: 40px;
   opacity: 1;
-  transform: translateY(0);
 }
 
-.btn-preview {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  border-radius: 9999px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #121212;
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-preview:hover {
-  background-color: #FFFFFF;
-  transform: scale(1.03);
-}
-
-.btn-preview i {
-  font-size: 0.875rem;
-}
-
-.active-wave-icon {
-  color: #2563EB;
-  font-weight: bold;
-  animation: pulse 1s infinite alternate;
-}
-
-.controls-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.btn-more-icon {
-  background: transparent;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.125rem;
-  transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.btn-more-icon:hover {
+/* Glass buttons style */
+.btn-glass-preview {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #FFFFFF;
-  transform: scale(1.1);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.btn-video-play {
-  width: 36px;
-  height: 36px;
+.btn-glass-preview:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-glass-preview.preview-active {
+  background: var(--accent-blue) !important;
+  border-color: var(--accent-blue) !important;
+  box-shadow: 0 0 10px var(--accent-blue);
+}
+
+.btn-glass-circle {
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background-color: #FFFFFF;
-  border: none;
-  color: #121212;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #9CA3AF;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
 }
 
-.btn-video-play:hover {
-  background-color: #F3F4F6;
+.btn-glass-circle:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
   transform: scale(1.05);
 }
 
-.btn-video-play i {
-  font-size: 0.875rem;
-  margin-left: 2px;
+.btn-glass-play {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: none;
+  color: #121212;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-glass-play:hover {
+  background: #F3F4F6;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.btn-glass-play i {
+  margin-left: 1px;
 }
 
 /* Responsive Made For You Grid */
@@ -2037,8 +2286,8 @@ onUnmounted(() => {
 
 .ticket-card {
   display: flex;
-  width: 320px;
-  height: 140px;
+  width: 390px;
+  height: 170px;
   border-radius: 12px;
   background-color: #1E1E22;
   border: 1px solid var(--border-color);
@@ -2054,20 +2303,22 @@ onUnmounted(() => {
 }
 
 .ticket-main {
-  flex: 1.8;
+  flex: 1.3;
   display: flex;
-  padding: 12px;
-  gap: 12px;
+  flex-direction: column;
+  padding: 14px 12px;
+  justify-content: flex-start;
+  gap: 8px;
   min-width: 0;
 }
 
 .ticket-art-wrapper {
   position: relative;
-  width: 70px;
-  height: 70px;
+  width: 140px !important;
+  height: 90px !important;
   border-radius: 8px;
   overflow: hidden;
-  align-self: center;
+  align-self: flex-start;
   flex-shrink: 0;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -2106,30 +2357,21 @@ onUnmounted(() => {
   transform: scale(1);
 }
 
-.ticket-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 0;
-}
-
 .ticket-artist-name {
-  font-size: 0.7rem;
-  color: var(--text-secondary);
-  font-weight: 500;
+  font-size: 0.75rem;
+  color: white;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
+  text-align: left;
 }
 
 .ticket-album-title {
   font-size: 0.85rem;
   font-weight: 700;
   color: #FFFFFF;
-  margin-top: 4px;
   line-height: 1.3;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
 }
 
@@ -2173,18 +2415,20 @@ onUnmounted(() => {
 
 /* Ticket Stub */
 .ticket-stub {
-  flex: 1;
+  flex: 1.6;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
+  justify-content: flex-start;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
   background-color: rgba(255, 255, 255, 0.01);
-  text-align: center;
+  text-align: left;
   min-width: 0;
 }
 
 .stub-badge {
+  align-self: flex-start;
   font-size: 8px;
   font-weight: 800;
   color: #FFFFFF;
@@ -2194,45 +2438,27 @@ onUnmounted(() => {
   text-transform: uppercase;
 }
 
-.stub-datetime {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
+.stub-label {
+  font-size: 0.6rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
 }
 
 .stub-date {
   font-size: 0.8rem;
   font-weight: 800;
   color: #FFFFFF;
-}
-
-.stub-year {
-  font-size: 0.65rem;
-  color: var(--text-secondary);
-}
-
-.stub-venue {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  width: 100%;
+  white-space: nowrap;
 }
 
 .venue-name {
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: #FFFFFF;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.venue-city {
-  font-size: 0.6rem;
-  color: var(--text-secondary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* Ambient Vinyl Disc styles */
@@ -2240,33 +2466,43 @@ onUnmounted(() => {
   width: 100%;
   scroll-behavior: smooth;
   overflow-x: auto;
+  padding-top: 12px;
 }
 
 .vinyl-card-container {
+  position: relative; /* Create relative stacking context for hover */
   width: 200px;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), z-index 0.3s ease;
+  z-index: 1;
+  overflow: visible !important;
 }
 
 .vinyl-card-container:hover {
   transform: translateY(-4px);
+  z-index: 15; /* Float on top of adjacent covers to reveal the sliding vinyl */
+}
+
+/* Slide adjacent sibling cards to the right when a card is hovered */
+.vinyl-card-container:hover ~ .vinyl-card-container {
+  transform: translateX(80px);
 }
 
 .vinyl-sleeve-wrapper {
   position: relative;
   width: 200px;
   height: 200px;
-  overflow: visible; /* To let vinyl slide out */
+  overflow: visible !important; /* To let vinyl slide out */
 }
 
 /* Vinyl Disc styling */
 .vinyl-disc {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 190px;
-  height: 190px;
+  top: 10px;
+  right: 10px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   z-index: 1;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
@@ -2373,7 +2609,7 @@ onUnmounted(() => {
 
 /* Sleeve Hover interaction: disc slides out and spins */
 .vinyl-card-container:hover .vinyl-disc {
-  transform: translateX(65px);
+  transform: translateX(80px);
   animation: spin 3s linear infinite;
   animation-delay: 0.4s;
 }
@@ -2388,8 +2624,8 @@ onUnmounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: translateX(65px) rotate(0deg); }
-  100% { transform: translateX(65px) rotate(360deg); }
+  0% { transform: translateX(80px) rotate(0deg); }
+  100% { transform: translateX(80px) rotate(360deg); }
 }
 
 .vinyl-info {
@@ -2411,189 +2647,66 @@ onUnmounted(() => {
   margin-top: 2px;
 }
 
-/* Commentary Cassette 3D Flip Styles */
-.commentary-cassette-grid {
+/* Albums by Featured Artists Section Styles */
+.albums-grid-scroll {
   width: 100%;
   scroll-behavior: smooth;
   overflow-x: auto;
 }
 
-.cassette-card {
-  width: 250px;
-  height: 160px;
-  perspective: 1000px; /* 3D context parent */
-}
-
-.cassette-card-inner {
+.album-card {
   position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-style: preserve-3d;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
-}
-
-.cassette-card:hover .cassette-card-inner {
-  transform: rotateY(180deg);
-}
-
-.cassette-front, .cassette-back {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden; /* Hides reverse side when flipped */
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-}
-
-/* Front cassette shell details */
-.cassette-front {
-  background-color: #18181A;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cassette-shell {
-  width: 100%;
-  height: 100%;
-  border-radius: 6px;
-  border: 3px solid #2B2B2E;
-  background-color: var(--tape-bg);
-  position: relative;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 12px;
+  border-radius: 12px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 8px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  width: 190px; /* Slightly larger card size */
+  flex-shrink: 0;
 }
 
-.cassette-label-sticker {
-  flex: 1;
-  background-color: #FFFFFF;
-  border-radius: 4px;
-  color: #121212;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 6px;
+.album-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
-.sticker-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.sticker-side {
-  font-size: 10px;
-  font-weight: 800;
-  border: 1px solid #121212;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.sticker-logo {
-  font-size: 8px;
-  font-weight: 900;
-  letter-spacing: 0.1em;
-}
-
-.sticker-window {
-  height: 22px;
-  border-radius: 3px;
-  background-color: #222225;
-  border: 1px solid #A1A1AA;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0 15px;
+.album-img-wrapper {
   position: relative;
-}
-
-.window-spool {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background-color: #A1A1AA;
-  border: 2px dashed #52525B;
-  animation: spool-rotate 4s linear infinite paused;
-}
-
-.cassette-card:hover .window-spool {
-  animation-play-state: running;
-}
-
-.window-tape {
-  width: 30px;
-  height: 8px;
-  background-color: #5C4334;
-  opacity: 0.85;
-}
-
-@keyframes spool-rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.sticker-bottom {
-  text-align: left;
-  line-height: 1.1;
-}
-
-.cassette-label-title {
-  font-size: 9px;
-  font-weight: 800;
-  white-space: nowrap;
+  width: 100%;
+  aspect-ratio: 1/1;
   overflow: hidden;
-  text-overflow: ellipsis;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.cassette-label-artist {
-  font-size: 7.5px;
-  color: #71717A;
-  font-weight: 600;
-}
-
-.cassette-bottom-trap {
-  height: 14px;
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 0 0 3px 3px;
+.album-badge-mini {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   display: flex;
-  justify-content: center;
-  gap: 15px;
   align-items: center;
-  border-top: 1px solid rgba(0,0,0,0.1);
+  justify-content: center;
 }
 
-.trap-hole {
-  width: 5px;
-  height: 5px;
-  background-color: #18181A;
-  border-radius: 50%;
+.play-btn-overlay {
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
 }
 
-/* Cassette Back (B-Side tracklist details) */
-.cassette-back {
-  background-color: #18181C;
-  transform: rotateY(180deg); /* Pre-flipped face */
+.album-card:hover .play-btn-overlay {
+  opacity: 1;
 }
 
-.cassette-back-content {
-  background: linear-gradient(135deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.03) 100%);
-  text-align: left;
+.album-card h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
-.cassette-tracks {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.album-card p {
+  font-size: 0.75rem;
+  line-height: 1.3;
 }
 </style>

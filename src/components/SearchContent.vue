@@ -116,7 +116,7 @@ const clearSearch = () => {
   overflow-y: auto;
   height: calc(100% - 0.25rem);
   margin: 0.25rem 1.5rem 0 0.25rem;
-  background-color: #0B0E14;
+  background-color: #1A1A1C;
   border: 1px solid var(--border-color);
   border-bottom: none;
   border-radius: 5px 5px 0 0;
@@ -164,7 +164,7 @@ const clearSearch = () => {
     height: 100%;
     border: none;
     border-radius: 0;
-    background-color: #0B0E14;
+    background-color: #1A1A1C;
   }
 
   .search-title {
