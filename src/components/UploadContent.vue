@@ -375,7 +375,15 @@ const finishUpload = () => {
                       <i class="ph ph-music-notes"></i>
                     </div>
                     <div class="file-meta">
-                      <p class="file-name">{{ song.name }}</p>
+                      <div 
+                        class="file-name-marquee-wrap" 
+                        :class="{ 'is-marquee': song.name.length > 28 }"
+                      >
+                        <!-- Text is doubled so translateX(-50%) creates a seamless infinite loop -->
+                        <span class="file-name-text">
+                          {{ song.name }}<template v-if="song.name.length > 28">&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;{{ song.name }}</template>
+                        </span>
+                      </div>
                       <p class="file-status" v-if="!song.isUploading">{{ formatBytes(song.size) }} • Upload complete</p>
                       <div class="progress-bar-wrap" v-else>
                         <div class="progress-track">
@@ -662,10 +670,12 @@ const finishUpload = () => {
                       <div v-else class="w-full h-full flex items-center justify-center"><i class="ph ph-music-note text-2xl text-secondary"></i></div>
                     </div>
                     <div class="review-texts">
-                      <h3 class="review-title">
-                        {{ song.title || 'Untitled Track' }}
+                      <div class="review-title-container">
                         <span v-if="song.isExplicit" class="explicit-badge">EXPLICIT</span>
-                      </h3>
+                        <h3 class="review-title">
+                          {{ song.title || 'Untitled Track' }}
+                        </h3>
+                      </div>
                       <p class="review-artist">{{ song.artist || 'Unknown Artist' }}</p>
                       <div class="review-tags">
                         <span class="genre-tag">
@@ -1132,11 +1142,14 @@ const finishUpload = () => {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  width: 100%;
+  overflow: hidden;
 }
 
 /* Uploaded File card display styles */
 .uploaded-file-card {
   width: 100%;
+  overflow: hidden; /* Prevent card expanding with long filenames */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1144,6 +1157,7 @@ const finishUpload = () => {
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-md);
   background: rgba(255, 255, 255, 0.02);
+  box-sizing: border-box;
 }
 
 .file-info-section {
@@ -1176,14 +1190,28 @@ const finishUpload = () => {
   min-width: 0;
 }
 
-.file-name {
+/* File name marquee wrapper - hard clip window */
+.file-name-marquee-wrap {
+  /* Must be strictly bounded to its parent */
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+/* The text span - static by default (desktop) */
+.file-name-text {
   font-size: 0.875rem;
   font-weight: 600;
   color: #FFFFFF;
   margin: 0;
+  display: block; /* block so it respects parent width */
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .file-status {
@@ -1591,14 +1619,20 @@ const finishUpload = () => {
   text-align: left;
 }
 
+.review-title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  width: 100%;
+}
+
 .review-title {
   font-size: 1.25rem;
   font-weight: 700;
   color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
   margin: 0;
+  line-height: 1.3;
 }
 
 .explicit-badge {
@@ -1996,6 +2030,58 @@ const finishUpload = () => {
 
 /* Responsive Overrides */
 @media (max-width: 768px) {
+  .upload-content-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .wizard-panel-container {
+    padding: 1.25rem !important;
+    min-height: auto !important;
+    gap: 1.5rem !important;
+  }
+
+  .upload-title {
+    font-size: 1.75rem !important;
+  }
+
+  .grid-layout-row {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .song-tab-btn {
+    padding: 0.4rem 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .form-input-field {
+    padding: 0.6rem 0.8rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  .form-label {
+    font-size: 0.7rem !important;
+  }
+
+  .checkbox-label {
+    font-size: 0.7rem !important;
+  }
+
+  .review-summary-card {
+    padding: 1rem !important;
+    gap: 1.25rem !important;
+  }
+
+  .review-tags {
+    justify-content: center !important;
+  }
+
+  .detail-value {
+    max-width: 140px !important;
+  }
+
   .upload-view {
     grid-column: 1;
     grid-row: 2;
@@ -2108,8 +2194,143 @@ const finishUpload = () => {
     text-align: center;
   }
   
+  .review-title-container {
+    align-items: center !important;
+  }
+
   .review-title {
-    justify-content: center;
+    text-align: center !important;
+  }
+
+  /* Card Resizing on Mobile Viewports */
+  .dropzone-container {
+    min-height: 150px !important;
+    padding: 1.25rem !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .cloud-icon-wrapper {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  .cloud-icon-wrapper i {
+    font-size: 1.5rem !important;
+  }
+
+  .choose-btn {
+    padding: 0.4rem 1.25rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .dropzone-title {
+    font-size: 0.75rem !important;
+  }
+
+  .dropzone-formats {
+    font-size: 0.65rem !important;
+  }
+
+  .uploaded-file-card {
+    padding: 0.75rem !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .file-icon-wrapper {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: var(--radius-sm) !important;
+  }
+
+  .file-icon-wrapper i {
+    font-size: 1.15rem !important;
+  }
+
+  .file-name {
+    font-size: 0.8rem !important;
+  }
+
+  .file-status {
+    font-size: 0.7rem !important;
+  }
+
+  .progress-track {
+    height: 4px !important;
+  }
+
+  .progress-text {
+    font-size: 0.6rem !important;
+  }
+
+  .remove-file-btn i {
+    font-size: 1rem !important;
+  }
+
+  .widget-card-panel {
+    padding: 0.85rem 1rem !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .widget-card-header {
+    padding-bottom: 0.5rem !important;
+  }
+
+  .widget-card-title {
+    font-size: 0.8rem !important;
+  }
+
+  .widget-card-list {
+    padding-top: 0.5rem !important;
+    gap: 0.5rem !important;
+  }
+
+  .widget-card-item {
+    font-size: 0.7rem !important;
+  }
+
+  .widget-card-item i {
+    font-size: 0.75rem !important;
+    margin-top: 1px !important;
+  }
+
+  .widget-card-body {
+    padding-top: 0.5rem !important;
+    gap: 0.75rem !important;
+  }
+
+  .widget-card-text {
+    font-size: 0.7rem !important;
+  }
+
+  .help-action-btn {
+    padding: 0.4rem 0.75rem !important;
+    font-size: 0.7rem !important;
+  }
+
+  .vertical-timeline {
+    padding-top: 0.75rem !important;
+    gap: 1rem !important;
+    padding-left: 1rem !important;
+  }
+
+  .timeline-trail-line {
+    top: 12px !important;
+    bottom: 12px !important;
+    left: 20px !important;
+  }
+
+  .timeline-bullet {
+    width: 10px !important;
+    height: 10px !important;
+    margin-top: 2px !important;
+  }
+
+  .timeline-node-title {
+    font-size: 0.7rem !important;
+  }
+
+  .timeline-node-desc {
+    font-size: 0.6rem !important;
   }
 
   /* Wizard bottom bar anchored to the very bottom on mobile (replacing mobile navbar) */
@@ -2155,5 +2376,44 @@ const finishUpload = () => {
     padding: 0.5rem 1rem !important;
     font-size: 0.75rem;
   }
+
+  /* ---- Mobile marquee for long filenames ---- */
+  .file-name-marquee-wrap {
+    overflow: hidden !important;    /* This is the clipping window - must never be violated */
+    width: 100% !important;
+    max-width: 100% !important;     /* Hard cap - never wider than parent */
+    white-space: nowrap !important;
+    height: 1.2em;                  /* Fixed height - card won't grow */
+    display: flex;
+    align-items: center;
+    min-width: 0;                   /* Crucial for flex children */
+  }
+
+  .file-name-text {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 0.8rem !important;
+    /* DO NOT set overflow:visible - that breaks the parent clip */
+    overflow: hidden !important;
+    text-overflow: clip !important;
+    /* Default: no animation (short filenames stay put) */
+    animation: none;
+    /* Don't constrain to 100% - we need it to be wider for the scroll */
+    max-width: none !important;
+  }
+
+  /* Active marquee scroll: Vue adds .is-marquee class on long names */
+  .file-name-marquee-wrap.is-marquee .file-name-text {
+    /* Once scrolling, text is allowed to overflow INSIDE the clipped wrapper */
+    overflow: visible !important;
+    animation: marquee-scroll 10s linear infinite;
+    padding-right: 3rem; /* visible gap between the two text copies */
+  }
+}
+
+/* ---- Keyframe lives OUTSIDE media query so it's always available ---- */
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 </style>
