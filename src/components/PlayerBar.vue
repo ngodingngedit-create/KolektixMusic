@@ -2,10 +2,17 @@
 import { ref, computed } from 'vue'
 import { playerState } from '../playerState.js'
 
-defineProps({
-  isQueueActive: Boolean
+const props = defineProps({
+  isQueueActive: Boolean,
+  activeTab: String
 })
-defineEmits(['toggle-queue'])
+const emit = defineEmits(['toggle-queue', 'change-tab'])
+
+const handleSongDetailsClick = () => {
+  if (window.innerWidth <= 768) {
+    emit('change-tab', props.activeTab === 'Lyrics' ? 'Home' : 'Lyrics')
+  }
+}
 
 const isMuted = ref(false)
 const isFavorited = ref(true)
@@ -73,7 +80,7 @@ const toggleFavorite = () => {
 <template>
   <footer class="player-bar glass-panel flex items-center justify-between">
     <!-- Left: Song details -->
-    <div class="song-details flex items-center gap-4">
+    <div class="song-details flex items-center gap-4 cursor-pointer" @click="handleSongDetailsClick">
       <div class="song-thumbnail w-14 h-14 rounded-md overflow-hidden bg-gray-600">
         <img :src="playerState.currentTrack.img" :alt="playerState.currentTrack.title" class="w-full h-full object-cover"/>
       </div>
@@ -119,7 +126,14 @@ const toggleFavorite = () => {
 
     <!-- Right: Utility controls -->
     <div class="utility-controls flex items-center gap-4">
-      <button class="btn-icon text-lg"><i class="ph ph-text-aa"></i></button>
+      <button 
+        @click="emit('change-tab', activeTab === 'Lyrics' ? 'Home' : 'Lyrics')" 
+        class="btn-icon text-lg" 
+        :class="{ 'active-lyrics-btn': activeTab === 'Lyrics' }"
+        title="Lyrics"
+      >
+        <i class="ph ph-microphone"></i>
+      </button>
       <button 
         @click="$emit('toggle-queue')" 
         class="btn-icon text-lg" 
@@ -353,7 +367,7 @@ const toggleFavorite = () => {
     font-size: 0.95rem;
   }
 }
-.active-queue-btn {
+.active-queue-btn, .active-lyrics-btn {
   color: var(--accent-blue) !important;
 }
 </style>

@@ -51,7 +51,8 @@ const navItems = [
   { name: 'Events', icon: 'ph-calendar-blank' },
   { name: 'Artists', icon: 'ph-users' },
   { name: 'Albums', icon: 'ph-record' },
-  { name: 'Playlists', icon: 'ph-playlist' }
+  { name: 'Playlists', icon: 'ph-playlist' },
+  { name: 'Settings', icon: 'ph-gear' }
 ]
 
 const libraryItems = [

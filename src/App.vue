@@ -9,6 +9,10 @@ import PlayerBar from './components/PlayerBar.vue'
 import MobileNavbar from './components/MobileNavbar.vue'
 import SearchContent from './components/SearchContent.vue'
 import AlbumDetail from './components/AlbumDetail.vue'
+import LyricsContent from './components/LyricsContent.vue'
+import ProfileContent from './components/ProfileContent.vue'
+import UploadContent from './components/UploadContent.vue'
+
 
 const isSidebarOpen = ref(false) // Mobile layout drawer state
 const isSidebarCollapsed = ref(false) // Desktop layout collapsed-to-icons state
@@ -73,13 +77,14 @@ const goBack = () => {
 </script>
 
 <template>
-  <div id="app" :class="{ 'sidebar-collapsed': isSidebarCollapsed, 'right-sidebar-open': isQueueOpen }">
+  <div id="app" :class="{ 'sidebar-collapsed': isSidebarCollapsed, 'right-sidebar-open': isQueueOpen, 'on-upload-page': activeTab === 'Upload Music' }">
     <!-- Mobile overlay hosted globally -->
     <div v-if="isSidebarOpen" class="sidebar-overlay" @click="isSidebarOpen = false"></div>
 
     <!-- Global Header spanning top of screen -->
     <HeaderNav 
       @toggle-sidebar="toggleSidebarMobile"
+      @change-tab="activeTab = $event"
     />
     
     <SidebarLeft 
@@ -94,14 +99,20 @@ const goBack = () => {
     <DiscoverContent v-else-if="activeTab === 'Discover'" @select-album="selectAlbum" />
     <SearchContent v-else-if="activeTab === 'Search'" />
     <AlbumDetail v-else-if="activeTab === 'AlbumDetail'" :album="selectedAlbum" @back="goBack" />
+    <LyricsContent v-else-if="activeTab === 'Lyrics'" />
+    <ProfileContent v-else-if="activeTab === 'Profile'" @open-queue="isQueueOpen = true" />
+    <UploadContent v-else-if="activeTab === 'Upload Music'" />
     <SidebarRight 
       class="sidebar-right" 
       :isOpen="isQueueOpen"
       @close="isQueueOpen = false"
     />
     <PlayerBar 
+      v-if="activeTab !== 'Upload Music'"
       :isQueueActive="isQueueOpen"
+      :activeTab="activeTab"
       @toggle-queue="isQueueOpen = !isQueueOpen"
+      @change-tab="activeTab = $event"
     />
     <!-- Mobile Bottom Navigation Bar (only shows on mobile) -->
     <MobileNavbar 

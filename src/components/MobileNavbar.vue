@@ -16,13 +16,13 @@ const navItems = [
   { name: 'Home', isLogo: true },
   { name: 'Discover', icon: 'ph-compass' },
   { name: 'Search', icon: 'ph-magnifying-glass' },
-  { name: 'Events', icon: 'ph-calendar-blank' },
   { name: 'Artists', icon: 'ph-users' },
+  { name: 'Upload Music', icon: 'ph-upload-simple' },
 ]
 </script>
 
 <template>
-  <nav class="mobile-bottom-nav" :class="{ 'navbar-hidden': isSidebarOpen }">
+  <nav class="mobile-bottom-nav" :class="{ 'navbar-hidden': isSidebarOpen || activeTab === 'Upload Music' }">
     <button
       v-for="item in navItems"
       :key="item.name"

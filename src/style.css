@@ -298,4 +298,13 @@ body {
   #app.right-sidebar-open .discover-content {
     margin-right: 0.25rem !important;
   }
+
+  #app.on-upload-page .sidebar-left {
+    height: calc(100% - 90px - 0.5rem) !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  #app.on-upload-page .upload-view {
+    height: calc(100% - 90px - 0.25rem) !important;
+  }
 }

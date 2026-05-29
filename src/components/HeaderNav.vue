@@ -1,5 +1,5 @@
 <script setup>
-defineEmits(['toggle-sidebar'])
+const emit = defineEmits(['toggle-sidebar', 'change-tab'])
 </script>
 
 <template>
@@ -15,7 +15,7 @@ defineEmits(['toggle-sidebar'])
         <!-- Mobile: Kolektix logo shown next to hamburger -->
         <div class="header-logo flex items-center gap-2">
           <div class="logo-icon-wrap">
-            <img src="/logo/logo.png" alt="Kolektix Logo"/>
+            <img src="/logo/logo2.png" alt="Kolektix Logo"/>
           </div>
         </div>
       </div>
@@ -45,20 +45,20 @@ defineEmits(['toggle-sidebar'])
       
       <!-- Far Right: User Actions (Desktop) -->
       <div class="right-section flex items-center gap-4">
-        <button class="btn btn-outline text-sm upload-btn">
+        <button @click="emit('change-tab', 'Upload Music')" class="btn btn-outline text-sm upload-btn">
           <i class="ph ph-upload-simple"></i> Upload Music
         </button>
         <button class="btn-icon text-xl"><i class="ph ph-bell"></i></button>
         <button class="btn-icon text-xl"><i class="ph ph-envelope-simple"></i></button>
-        <div class="avatar w-8 h-8 rounded-full overflow-hidden bg-gray-600">
-          <img src="https://i.pravatar.cc/150?img=11" alt="User" class="w-full h-full object-cover"/>
+        <div @click="emit('change-tab', 'Profile')" class="avatar w-8 h-8 rounded-full overflow-hidden bg-gray-600 cursor-pointer" title="View Profile">
+          <img src="/aldi_ramadhan_avatar.png" alt="User" class="w-full h-full object-cover"/>
         </div>
       </div>
 
       <!-- Far Right: Mobile Profile Avatar only -->
       <div class="mobile-right-section flex items-center gap-2">
-        <div class="avatar w-8 h-8 rounded-full overflow-hidden bg-gray-600">
-          <img src="https://i.pravatar.cc/150?img=11" alt="User" class="w-full h-full object-cover"/>
+        <div @click="emit('change-tab', 'Profile')" class="avatar w-8 h-8 rounded-full overflow-hidden bg-gray-600 cursor-pointer" title="View Profile">
+          <img src="/aldi_ramadhan_avatar.png" alt="User" class="w-full h-full object-cover"/>
         </div>
       </div>
     </div>
@@ -114,7 +114,7 @@ defineEmits(['toggle-sidebar'])
   border-radius: var(--radius-full);
   padding: 0 6px 0 12px;
   height: 42px;
-  width: 380px;
+  width: 500px;
   transition: all 0.3s ease;
 }
 
@@ -190,7 +190,7 @@ defineEmits(['toggle-sidebar'])
 }
 
 .logo-icon-wrap {
-  height: 60px; /* Enlarged from 50px */
+  height: 35px; /* Enlarged from 50px */
   width: auto;
   display: flex;
   align-items: center;
@@ -227,7 +227,7 @@ defineEmits(['toggle-sidebar'])
     flex-shrink: 0;
   }
   .logo-icon-wrap {
-    height: 42px; /* Enlarged from 36px */
+    height: 26px; /* Reduced from 42px for cleaner mobile header spacing */
   }
   /* Hide desktop right section on mobile */
   .right-section {
@@ -237,6 +237,7 @@ defineEmits(['toggle-sidebar'])
   .mobile-right-section {
     display: flex;
     flex-shrink: 0;
+    margin-left: auto;
   }
   .hamburger-btn {
     display: flex;
@@ -257,6 +258,20 @@ defineEmits(['toggle-sidebar'])
 @media (max-width: 380px) {
   .search-browser-card {
     width: 170px;
+  }
+}
+
+@media (min-width: 769px) {
+  .right-section .btn-icon,
+  .right-section .upload-btn,
+  .browser-icon-btn,
+  .search-card-icon,
+  .search-card-input {
+    color: #FFFFFF !important;
+  }
+  
+  .right-section .upload-btn {
+    border-color: rgba(255, 255, 255, 0.3) !important;
   }
 }
 </style>
