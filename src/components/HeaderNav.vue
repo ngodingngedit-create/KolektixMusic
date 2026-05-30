@@ -1,4 +1,13 @@
 <script setup>
+import { notificationsState } from '../notificationsState.js'
+import { chatsState } from '../chatsState.js'
+
+defineProps({
+  activeTab: {
+    type: String,
+    default: 'Home'
+  }
+})
 const emit = defineEmits(['toggle-sidebar', 'change-tab'])
 </script>
 
@@ -48,8 +57,18 @@ const emit = defineEmits(['toggle-sidebar', 'change-tab'])
         <button @click="emit('change-tab', 'Upload Music')" class="btn btn-outline text-sm upload-btn">
           <i class="ph ph-upload-simple"></i> Upload Music
         </button>
-        <button class="btn-icon text-xl"><i class="ph ph-bell"></i></button>
-        <button @click="emit('change-tab', 'Messages')" class="btn-icon text-xl"><i class="ph ph-envelope-simple"></i></button>
+        <button @click="emit('change-tab', 'Notifications')" class="btn-icon text-xl notification-bell-btn" :class="{ 'active-notif-btn': activeTab === 'Notifications' }">
+          <i class="ph ph-bell"></i>
+          <span v-if="notificationsState.unreadCount > 0" class="notif-badge">
+            {{ notificationsState.unreadCount }}
+          </span>
+        </button>
+        <button @click="emit('change-tab', 'Messages')" class="btn-icon text-xl chat-icon-btn" :class="{ 'active-chat-btn': activeTab === 'Messages' }">
+          <i class="ph ph-envelope-simple"></i>
+          <span v-if="chatsState.unreadCount > 0" class="notif-badge">
+            {{ chatsState.unreadCount }}
+          </span>
+        </button>
         <div @click="emit('change-tab', 'Profile')" class="avatar w-8 h-8 rounded-full overflow-hidden bg-gray-600 cursor-pointer" title="View Profile">
           <img src="/aldi_ramadhan_avatar.png" alt="User" class="w-full h-full object-cover"/>
         </div>
@@ -273,5 +292,34 @@ const emit = defineEmits(['toggle-sidebar', 'change-tab'])
   .right-section .upload-btn {
     border-color: rgba(255, 255, 255, 0.3) !important;
   }
+}
+
+.right-section .btn-icon.active-notif-btn,
+.right-section .btn-icon.active-chat-btn {
+  color: #2563EB !important;
+}
+
+.notification-bell-btn,
+.chat-icon-btn {
+  position: relative;
+}
+
+.notif-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: #EF4444; /* High-visibility red */
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 1.5px solid #121212; /* Matches header background color */
+  line-height: 1;
 }
 </style>

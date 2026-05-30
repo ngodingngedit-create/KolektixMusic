@@ -78,7 +78,7 @@ const toggleFavorite = () => {
 </script>
 
 <template>
-  <footer class="player-bar glass-panel flex items-center justify-between">
+  <footer class="player-bar glass-panel flex items-center justify-between" :class="{ 'player-hidden-mobile': activeTab === 'Notifications' }">
     <!-- Left: Song details -->
     <div class="song-details flex items-center gap-4 cursor-pointer" @click="handleSongDetailsClick">
       <div class="song-thumbnail w-14 h-14 rounded-md overflow-hidden bg-gray-600">
@@ -365,6 +365,12 @@ const toggleFavorite = () => {
   /* Favorite button smaller on mobile */
   .favorite-btn {
     font-size: 0.95rem;
+  }
+
+  .player-bar.player-hidden-mobile {
+    transform: translateY(200px) !important;
+    opacity: 0;
+    pointer-events: none;
   }
 }
 .active-queue-btn, .active-lyrics-btn {

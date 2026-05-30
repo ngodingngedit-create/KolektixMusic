@@ -13,6 +13,7 @@ import LyricsContent from './components/LyricsContent.vue'
 import ProfileContent from './components/ProfileContent.vue'
 import UploadContent from './components/UploadContent.vue'
 import ChatContent from './components/ChatContent.vue'
+import NotificationContent from './components/NotificationContent.vue'
 
 
 const isSidebarOpen = ref(false) // Mobile layout drawer state
@@ -91,6 +92,7 @@ const goBack = () => {
 
     <!-- Global Header spanning top of screen -->
     <HeaderNav 
+      :activeTab="activeTab"
       @toggle-sidebar="toggleSidebarMobile"
       @change-tab="activeTab = $event"
     />
@@ -111,6 +113,7 @@ const goBack = () => {
     <ProfileContent v-else-if="activeTab === 'Profile'" @open-queue="isQueueOpen = true" />
     <UploadContent v-else-if="activeTab === 'Upload Music'" />
     <ChatContent v-else-if="activeTab === 'Messages'" @chat-pane-change="isChatActiveMobile = $event" />
+    <NotificationContent v-else-if="activeTab === 'Notifications'" />
     <SidebarRight 
       class="sidebar-right" 
       :isOpen="isQueueOpen"
