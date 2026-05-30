@@ -149,7 +149,8 @@ const messageThreads = ref({
 
 // Active chat item
 const activeChat = computed(() => {
-  return chats.value.find(c => c.id === currentChatId.value) || chats.value[0] || null
+  if (currentChatId.value === null) return null
+  return chats.value.find(c => c.id === currentChatId.value) || null
 })
 
 // Messages for active thread
@@ -340,12 +341,8 @@ const deleteActiveChat = () => {
   chats.value.splice(index, 1)
   delete messageThreads.value[idToDelete]
 
-  if (chats.value.length > 0) {
-    const nextIndex = Math.min(index, chats.value.length - 1)
-    selectChat(chats.value[nextIndex].id)
-  } else {
-    currentChatId.value = null
-  }
+  // Set currentChatId to null so we stay in active chat page but show no selected conversation state
+  currentChatId.value = null
   showOptionsMenu.value = false
 }
 
@@ -633,15 +630,15 @@ watch(currentChatId, () => {
       class="active-chat-window"
       :class="{ 'hidden-mobile': isMobile && mobileActivePane === 'list' }"
     >
-      <template v-if="activeChat">
-        <!-- Chat Header -->
-        <div class="chat-window-header">
-          <div class="header-contact-info">
-            <!-- Back button on Mobile -->
-            <button v-if="isMobile" @click="backToList" class="mobile-back-btn" title="Back to Chats">
-              <i class="ph ph-caret-left text-xl text-secondary hover:text-white transition-colors"></i>
-            </button>
+      <!-- Chat Header -->
+      <div class="chat-window-header">
+        <div class="header-contact-info">
+          <!-- Back button on Mobile -->
+          <button v-if="isMobile" @click="backToList" class="mobile-back-btn" title="Back to Chats">
+            <i class="ph ph-caret-left text-xl text-secondary hover:text-white transition-colors"></i>
+          </button>
 
+          <template v-if="activeChat">
             <!-- Header Avatar -->
             <div class="avatar-container">
               <div 
@@ -667,29 +664,41 @@ watch(currentChatId, () => {
                 {{ activeChat.online ? 'Online' : 'Offline' }}
               </span>
             </div>
-          </div>
-
-          <!-- Menu actions -->
-          <div class="options-menu-container">
-            <button class="options-btn" title="Chat Settings" @click.stop="toggleOptionsMenu">
-              <i class="ph ph-dots-three-vertical text-xl text-secondary hover:text-white transition-colors"></i>
-            </button>
-            
-            <Transition name="menu-fade">
-              <div v-if="showOptionsMenu" class="options-dropdown">
-                <button class="dropdown-item" @click="clearActiveChatMessages">
-                  <i class="ph ph-trash-simple text-base"></i>
-                  <span>Bersihkan Chat</span>
-                </button>
-                <button class="dropdown-item delete-option" @click="deleteActiveChat">
-                  <i class="ph ph-x-circle text-base"></i>
-                  <span>Hapus Chat</span>
-                </button>
-              </div>
-            </Transition>
-          </div>
+          </template>
+          <template v-else>
+            <!-- Header Name and Status when no active chat -->
+            <div class="header-name-status">
+              <span class="header-chat-name">Messages</span>
+              <span class="header-chat-status">
+                <span class="status-indicator-dot"></span>
+                No conversation selected
+              </span>
+            </div>
+          </template>
         </div>
 
+        <!-- Menu actions -->
+        <div v-if="activeChat" class="options-menu-container">
+          <button class="options-btn" title="Chat Settings" @click.stop="toggleOptionsMenu">
+            <i class="ph ph-dots-three-vertical text-xl text-secondary hover:text-white transition-colors"></i>
+          </button>
+          
+          <Transition name="menu-fade">
+            <div v-if="showOptionsMenu" class="options-dropdown">
+              <button class="dropdown-item" @click="clearActiveChatMessages">
+                <i class="ph ph-trash-simple text-base"></i>
+                <span>Bersihkan Chat</span>
+              </button>
+              <button class="dropdown-item delete-option" @click="deleteActiveChat">
+                <i class="ph ph-x-circle text-base"></i>
+                <span>Hapus Chat</span>
+              </button>
+            </div>
+          </Transition>
+        </div>
+      </div>
+
+      <template v-if="activeChat">
         <!-- Message Thread Area -->
         <div class="message-thread-area" ref="messageThreadScrollContainer">
           <div class="date-stamp-divider">
