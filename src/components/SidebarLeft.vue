@@ -47,6 +47,7 @@ const handleToggle = () => {
 const navItems = [
   { name: 'Home', icon: 'ph-house', active: true },
   { name: 'Discover', icon: 'ph-compass' },
+  { name: 'Messages', icon: 'ph-chat-circle-dots' },
   { name: 'Music', icon: 'ph-music-notes' },
   { name: 'Events', icon: 'ph-calendar-blank' },
   { name: 'Artists', icon: 'ph-users' },
@@ -349,6 +350,11 @@ const libraryItems = [
   .sidebar-left.collapsed .library-menu li a {
     justify-content: flex-start !important;
     padding: 0.75rem 1rem !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    border-radius: var(--radius-md) !important;
+    gap: 0.75rem !important;
   }
   .sidebar-left.collapsed .library-header {
     opacity: 1 !important;

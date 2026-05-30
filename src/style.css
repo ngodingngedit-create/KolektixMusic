@@ -295,7 +295,8 @@ body {
 /* Reduce margin-right when right sidebar is open on desktop to bring main content closer to it */
 @media (min-width: 769px) {
   #app.right-sidebar-open .main-content,
-  #app.right-sidebar-open .discover-content {
+  #app.right-sidebar-open .discover-content,
+  #app.right-sidebar-open .chat-view {
     margin-right: 0.25rem !important;
   }
 

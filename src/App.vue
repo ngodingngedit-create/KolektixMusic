@@ -12,6 +12,7 @@ import AlbumDetail from './components/AlbumDetail.vue'
 import LyricsContent from './components/LyricsContent.vue'
 import ProfileContent from './components/ProfileContent.vue'
 import UploadContent from './components/UploadContent.vue'
+import ChatContent from './components/ChatContent.vue'
 
 
 const isSidebarOpen = ref(false) // Mobile layout drawer state
@@ -102,13 +103,14 @@ const goBack = () => {
     <LyricsContent v-else-if="activeTab === 'Lyrics'" />
     <ProfileContent v-else-if="activeTab === 'Profile'" @open-queue="isQueueOpen = true" />
     <UploadContent v-else-if="activeTab === 'Upload Music'" />
+    <ChatContent v-else-if="activeTab === 'Messages'" />
     <SidebarRight 
       class="sidebar-right" 
       :isOpen="isQueueOpen"
       @close="isQueueOpen = false"
     />
     <PlayerBar 
-      v-if="activeTab !== 'Upload Music'"
+      v-if="activeTab !== 'Upload Music' && activeTab !== 'Messages'"
       :isQueueActive="isQueueOpen"
       :activeTab="activeTab"
       @toggle-queue="isQueueOpen = !isQueueOpen"

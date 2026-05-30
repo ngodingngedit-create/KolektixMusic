@@ -49,7 +49,7 @@ const emit = defineEmits(['toggle-sidebar', 'change-tab'])
           <i class="ph ph-upload-simple"></i> Upload Music
         </button>
         <button class="btn-icon text-xl"><i class="ph ph-bell"></i></button>
-        <button class="btn-icon text-xl"><i class="ph ph-envelope-simple"></i></button>
+        <button @click="emit('change-tab', 'Messages')" class="btn-icon text-xl"><i class="ph ph-envelope-simple"></i></button>
         <div @click="emit('change-tab', 'Profile')" class="avatar w-8 h-8 rounded-full overflow-hidden bg-gray-600 cursor-pointer" title="View Profile">
           <img src="/aldi_ramadhan_avatar.png" alt="User" class="w-full h-full object-cover"/>
         </div>
