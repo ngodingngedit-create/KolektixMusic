@@ -7,6 +7,10 @@ defineProps({
   isSidebarOpen: {
     type: Boolean,
     default: false
+  },
+  isChatActiveMobile: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -22,7 +26,7 @@ const navItems = [
 </script>
 
 <template>
-  <nav class="mobile-bottom-nav" :class="{ 'navbar-hidden': isSidebarOpen || activeTab === 'Upload Music' }">
+  <nav class="mobile-bottom-nav" :class="{ 'navbar-hidden': isSidebarOpen || activeTab === 'Upload Music' || (activeTab === 'Messages' && isChatActiveMobile) }">
     <button
       v-for="item in navItems"
       :key="item.name"

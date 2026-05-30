@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import HeaderNav from './components/HeaderNav.vue'
 import SidebarLeft from './components/SidebarLeft.vue'
 import MainContent from './components/MainContent.vue'
@@ -24,6 +24,13 @@ const previousTab = ref('Home')
 const selectedAlbum = ref(null)
 
 const isQueueOpen = ref(false)
+const isChatActiveMobile = ref(false)
+
+watch(activeTab, (newTab) => {
+  if (newTab !== 'Messages') {
+    isChatActiveMobile.value = false
+  }
+})
 
 const toggleSidebarMobile = () => {
   isSidebarOpen.value = !isSidebarOpen.value
@@ -103,7 +110,7 @@ const goBack = () => {
     <LyricsContent v-else-if="activeTab === 'Lyrics'" />
     <ProfileContent v-else-if="activeTab === 'Profile'" @open-queue="isQueueOpen = true" />
     <UploadContent v-else-if="activeTab === 'Upload Music'" />
-    <ChatContent v-else-if="activeTab === 'Messages'" />
+    <ChatContent v-else-if="activeTab === 'Messages'" @chat-pane-change="isChatActiveMobile = $event" />
     <SidebarRight 
       class="sidebar-right" 
       :isOpen="isQueueOpen"
@@ -120,6 +127,7 @@ const goBack = () => {
     <MobileNavbar 
       :activeTab="activeTab"
       :isSidebarOpen="isSidebarOpen"
+      :isChatActiveMobile="isChatActiveMobile"
       @change-tab="activeTab = $event"
     />
   </div>

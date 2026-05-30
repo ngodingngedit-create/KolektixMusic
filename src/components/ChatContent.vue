@@ -1,12 +1,18 @@
 <script setup>
 import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 
+const emit = defineEmits(['chat-pane-change'])
+
 // Define active state and navigation
 const currentChatId = ref(1) // Nadya Putri by default
 const searchQuery = ref('')
 const activeFilter = ref('All') // 'All', 'Unread', 'Groups'
 const messageInput = ref('')
 const mobileActivePane = ref('list') // 'list' or 'chat'
+
+watch(mobileActivePane, (newVal) => {
+  emit('chat-pane-change', newVal === 'chat')
+}, { immediate: true })
 const messageThreadScrollContainer = ref(null)
 const fileInput = ref(null)
 
@@ -143,7 +149,7 @@ const messageThreads = ref({
 
 // Active chat item
 const activeChat = computed(() => {
-  return chats.value.find(c => c.id === currentChatId.value) || chats.value[0]
+  return chats.value.find(c => c.id === currentChatId.value) || chats.value[0] || null
 })
 
 // Messages for active thread
@@ -320,27 +326,158 @@ const addEmoji = (emoji) => {
   messageInput.value += emoji
 }
 
-const closeEmojiPicker = (e) => {
+// Options Menu state & actions
+const showOptionsMenu = ref(false)
+const toggleOptionsMenu = () => {
+  showOptionsMenu.value = !showOptionsMenu.value
+}
+
+const deleteActiveChat = () => {
+  const idToDelete = currentChatId.value
+  const index = chats.value.findIndex(c => c.id === idToDelete)
+  if (index === -1) return
+
+  chats.value.splice(index, 1)
+  delete messageThreads.value[idToDelete]
+
+  if (chats.value.length > 0) {
+    const nextIndex = Math.min(index, chats.value.length - 1)
+    selectChat(chats.value[nextIndex].id)
+  } else {
+    currentChatId.value = null
+  }
+  showOptionsMenu.value = false
+}
+
+const clearActiveChatMessages = () => {
+  if (currentChatId.value) {
+    messageThreads.value[currentChatId.value] = []
+    const chatIndex = chats.value.findIndex(c => c.id === currentChatId.value)
+    if (chatIndex !== -1) {
+      chats.value[chatIndex].snippet = 'No messages yet'
+    }
+  }
+  showOptionsMenu.value = false
+}
+
+const closePickersAndMenus = (e) => {
   if (showEmojiPicker.value && !e.target.closest('.emoji-picker-container')) {
     showEmojiPicker.value = false
   }
+  if (showOptionsMenu.value && !e.target.closest('.options-menu-container')) {
+    showOptionsMenu.value = false
+  }
+}
+
+// Compose Modal state and suggested contacts
+const showComposeModal = ref(false)
+const nextContactId = ref(100) // Dummy sequence for new contacts
+const availableContacts = ref([
+  {
+    name: 'Nadin Amizah',
+    avatar: '/nadin.jpg',
+    avatarGradient: 'linear-gradient(135deg, #11998e, #38ef7d)',
+    initials: 'NA',
+    online: true,
+    group: false,
+    snippet: 'Hi! Let\'s talk about music 🎶',
+    messages: [
+      { id: 901, text: 'Hi! Let\'s talk about music 🎶', sender: 'other', time: '10:00 AM' }
+    ]
+  },
+  {
+    name: 'Pamungkas',
+    avatar: '/pamungkas.jpg',
+    avatarGradient: 'linear-gradient(135deg, #F3904F, #3B4371)',
+    initials: 'P',
+    online: false,
+    group: false,
+    snippet: 'Hey there! How is it going?',
+    messages: [
+      { id: 902, text: 'Hey there! How is it going?', sender: 'other', time: '10:15 AM' }
+    ]
+  },
+  {
+    name: 'Bernadya',
+    avatar: '/album_bernadya1.png',
+    avatarGradient: 'linear-gradient(135deg, #fc00ff, #00dbde)',
+    initials: 'B',
+    online: true,
+    group: false,
+    snippet: 'Hello! I listened to your remix.',
+    messages: [
+      { id: 903, text: 'Hello! I listened to your remix.', sender: 'other', time: '10:20 AM' }
+    ]
+  }
+])
+
+const filteredSuggestedContacts = computed(() => {
+  return availableContacts.value.filter(c => 
+    c.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+    c.snippet.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+})
+
+const toggleComposeModal = () => {
+  showComposeModal.value = !showComposeModal.value
+  searchQuery.value = ''
+}
+
+const startNewChat = (contact) => {
+  searchQuery.value = ''
+  // Check if contact already exists in active chats
+  const existingChat = chats.value.find(c => c.name === contact.name)
+  if (existingChat) {
+    selectChat(existingChat.id)
+    showComposeModal.value = false
+    return
+  }
+
+  // Create new chat
+  const newId = nextContactId.value++
+  const newChat = {
+    id: newId,
+    name: contact.name,
+    avatar: contact.avatar,
+    avatarGradient: contact.avatarGradient,
+    initials: contact.initials,
+    unreadCount: 0,
+    snippet: contact.snippet,
+    time: '10:30 AM',
+    online: contact.online,
+    group: contact.group
+  }
+
+  // Prepend to chats
+  chats.value.unshift(newChat)
+
+  // Add message threads
+  messageThreads.value[newId] = [...contact.messages]
+
+  // Select new chat
+  selectChat(newId)
+
+  // Close modal
+  showComposeModal.value = false
 }
 
 onMounted(() => {
   checkMobile()
   window.addEventListener('resize', checkMobile)
-  window.addEventListener('click', closeEmojiPicker)
+  window.addEventListener('click', closePickersAndMenus)
   // Clear unread badge of active chat on load
-  const index = chats.value.findIndex(c => c.id === currentChatId.value)
-  if (index !== -1) {
-    chats.value[index].unreadCount = 0
+  if (currentChatId.value) {
+    const index = chats.value.findIndex(c => c.id === currentChatId.value)
+    if (index !== -1) {
+      chats.value[index].unreadCount = 0
+    }
   }
   scrollToBottom()
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', checkMobile)
-  window.removeEventListener('click', closeEmojiPicker)
+  window.removeEventListener('click', closePickersAndMenus)
 })
 
 // Watch for chat changes to scroll
@@ -350,7 +487,7 @@ watch(currentChatId, () => {
 </script>
 
 <template>
-  <div class="chat-view" :class="{ 'mobile-view': isMobile }">
+  <div class="chat-view" :class="{ 'mobile-view': isMobile, 'mobile-chat-active': isMobile && mobileActivePane === 'chat' }">
     <!-- Left Sidebar (Chat List Pane) -->
     <div 
       class="chat-list-pane" 
@@ -358,9 +495,11 @@ watch(currentChatId, () => {
     >
       <!-- Header -->
       <div class="chat-list-header">
-        <h2>Messages</h2>
-        <button class="compose-btn" title="New Message">
-          <i class="ph ph-note-pencil text-xl text-[#9CA3AF] hover:text-white transition-colors"></i>
+        <h2 v-if="!showComposeModal">Messages</h2>
+        <h2 v-else>New Message</h2>
+        <button class="compose-btn" :title="showComposeModal ? 'Back to Chats' : 'New Message'" @click="toggleComposeModal">
+          <i v-if="!showComposeModal" class="ph ph-note-pencil text-xl text-[#9CA3AF] hover:text-white transition-colors"></i>
+          <i v-else class="ph ph-arrow-left text-xl text-[#9CA3AF] hover:text-white transition-colors"></i>
         </button>
       </div>
 
@@ -370,7 +509,7 @@ watch(currentChatId, () => {
           <i class="ph ph-magnifying-glass search-icon text-secondary"></i>
           <input 
             type="text" 
-            placeholder="Search messages" 
+            :placeholder="showComposeModal ? 'Search contacts' : 'Search messages'" 
             v-model="searchQuery"
             class="chat-search-input"
           />
@@ -381,7 +520,7 @@ watch(currentChatId, () => {
       </div>
 
       <!-- Filter Pills -->
-      <div class="filter-pills">
+      <div v-if="!showComposeModal" class="filter-pills">
         <button 
           v-for="filter in ['All', 'Unread', 'Groups']" 
           :key="filter"
@@ -393,56 +532,99 @@ watch(currentChatId, () => {
         </button>
       </div>
 
-      <!-- Scrollable Chat Threads List -->
+      <!-- Scrollable Chat Threads List / Compose Contacts List -->
       <div class="chat-threads-container">
-        <div v-if="filteredChats.length === 0" class="empty-list">
-          <i class="ph ph-chat-circle-dots text-3xl mb-2 opacity-40"></i>
-          <p class="text-xs">No conversations found</p>
-        </div>
-        
-        <div 
-          v-for="chat in filteredChats" 
-          :key="chat.id"
-          class="chat-thread-row"
-          :class="{ 'active': chat.id === currentChatId }"
-          @click="selectChat(chat.id)"
-        >
-          <!-- Circular Avatar / Initial -->
-          <div class="avatar-container">
-            <div 
-              v-if="chat.avatar"
-              class="avatar-circle"
-            >
-              <img :src="chat.avatar" :alt="chat.name" />
+        <template v-if="!showComposeModal">
+          <div v-if="filteredChats.length === 0" class="empty-list">
+            <i class="ph ph-chat-circle-dots text-3xl mb-2 opacity-40"></i>
+            <p class="text-xs">No conversations found</p>
+          </div>
+          
+          <div 
+            v-for="chat in filteredChats" 
+            :key="chat.id"
+            class="chat-thread-row"
+            :class="{ 'active': chat.id === currentChatId }"
+            @click="selectChat(chat.id)"
+          >
+            <!-- Circular Avatar / Initial -->
+            <div class="avatar-container">
+              <div 
+                v-if="chat.avatar"
+                class="avatar-circle"
+              >
+                <img :src="chat.avatar" :alt="chat.name" />
+              </div>
+              <div 
+                v-else
+                class="avatar-circle avatar-initials"
+                :style="{ background: chat.avatarGradient }"
+              >
+                {{ chat.initials }}
+              </div>
+              
+              <!-- Online status indicator -->
+              <span v-if="chat.online" class="online-indicator-dot"></span>
             </div>
-            <div 
-              v-else
-              class="avatar-circle avatar-initials"
-              :style="{ background: chat.avatarGradient }"
-            >
-              {{ chat.initials }}
+
+            <!-- Name and snippet -->
+            <div class="thread-info">
+              <div class="thread-top-row">
+                <span class="chat-name">{{ chat.name }}</span>
+                <span class="chat-time">{{ chat.time }}</span>
+              </div>
+              <div class="thread-bottom-row">
+                <p class="chat-snippet">{{ chat.snippet }}</p>
+                
+                <!-- Unread Message Badge -->
+                <span v-if="chat.unreadCount > 0" class="unread-badge">
+                  {{ chat.unreadCount }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </template>
+        
+        <!-- Compose Suggested Contacts Mode -->
+        <template v-else>
+          <div class="contacts-list-sidebar">
+            <h4 class="section-title">Suggested Contacts</h4>
+            <div v-if="filteredSuggestedContacts.length === 0" class="empty-list">
+              <i class="ph ph-users text-3xl mb-2 opacity-40"></i>
+              <p class="text-xs">No contacts found</p>
             </div>
             
-            <!-- Online status indicator -->
-            <span v-if="chat.online" class="online-indicator-dot"></span>
-          </div>
-
-          <!-- Name and snippet -->
-          <div class="thread-info">
-            <div class="thread-top-row">
-              <span class="chat-name">{{ chat.name }}</span>
-              <span class="chat-time">{{ chat.time }}</span>
-            </div>
-            <div class="thread-bottom-row">
-              <p class="chat-snippet">{{ chat.snippet }}</p>
+            <div 
+              v-for="contact in filteredSuggestedContacts" 
+              :key="contact.name" 
+              class="contact-suggestion-row sidebar-contact-row"
+              @click="startNewChat(contact)"
+            >
+              <div class="avatar-container">
+                <div v-if="contact.avatar" class="avatar-circle">
+                  <img :src="contact.avatar" :alt="contact.name" />
+                </div>
+                <div 
+                  v-else 
+                  class="avatar-circle avatar-initials" 
+                  :style="{ background: contact.avatarGradient }"
+                >
+                  {{ contact.initials }}
+                </div>
+                <span v-if="contact.online" class="online-indicator-dot"></span>
+              </div>
               
-              <!-- Unread Message Badge -->
-              <span v-if="chat.unreadCount > 0" class="unread-badge">
-                {{ chat.unreadCount }}
-              </span>
+              <div class="contact-info">
+                <span class="contact-name">{{ contact.name }}</span>
+                <span class="contact-snippet">{{ contact.snippet }}</span>
+              </div>
+              
+              <div class="start-chat-btn">
+                <i class="ph ph-chat-circle text-lg"></i>
+              </div>
             </div>
           </div>
-        </div>
+        </template>
       </div>
     </div>
 
@@ -451,146 +633,171 @@ watch(currentChatId, () => {
       class="active-chat-window"
       :class="{ 'hidden-mobile': isMobile && mobileActivePane === 'list' }"
     >
-      <!-- Chat Header -->
-      <div class="chat-window-header">
-        <div class="header-contact-info">
-          <!-- Back button on Mobile -->
-          <button v-if="isMobile" @click="backToList" class="mobile-back-btn" title="Back to Chats">
-            <i class="ph ph-caret-left text-xl text-secondary hover:text-white transition-colors"></i>
-          </button>
-
-          <!-- Header Avatar -->
-          <div class="avatar-container">
-            <div 
-              v-if="activeChat.avatar"
-              class="avatar-circle"
-            >
-              <img :src="activeChat.avatar" :alt="activeChat.name" />
-            </div>
-            <div 
-              v-else
-              class="avatar-circle avatar-initials"
-              :style="{ background: activeChat.avatarGradient }"
-            >
-              {{ activeChat.initials }}
-            </div>
-          </div>
-
-          <!-- Header Name and Status -->
-          <div class="header-name-status">
-            <span class="header-chat-name">{{ activeChat.name }}</span>
-            <span class="header-chat-status">
-              <span class="status-indicator-dot" :class="{ 'online': activeChat.online }"></span>
-              {{ activeChat.online ? 'Online' : 'Offline' }}
-            </span>
-          </div>
-        </div>
-
-        <!-- Menu actions -->
-        <button class="options-btn" title="Chat Settings">
-          <i class="ph ph-dots-three-vertical text-xl text-secondary hover:text-white transition-colors"></i>
-        </button>
-      </div>
-
-      <!-- Message Thread Area -->
-      <div class="message-thread-area" ref="messageThreadScrollContainer">
-        <div class="date-stamp-divider">
-          <span class="date-stamp">
-            May 24, 2024
-          </span>
-        </div>
-
-        <div class="messages-container">
-          <div 
-            v-for="msg in activeMessages" 
-            :key="msg.id" 
-            class="message-row"
-            :class="[msg.sender === 'me' ? 'me' : 'other']"
-          >
-            <!-- Message Bubble -->
-            <div 
-              class="message-bubble"
-              :class="[msg.sender === 'me' ? 'me-bubble' : 'other-bubble']"
-            >
-              <p class="message-text">{{ msg.text }}</p>
-              
-              <!-- Info footer inside bubble: time and double check -->
-              <div class="message-meta-footer">
-                <span>{{ msg.time }}</span>
-                <i v-if="msg.sender === 'me'" class="ph ph-checks" title="Read"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bottom Input Bar -->
-      <div class="bottom-input-bar">
-        <!-- Hidden file input for attachments -->
-        <input 
-          type="file" 
-          ref="fileInput" 
-          @change="handleFileChange" 
-          style="display: none;" 
-        />
-        
-        <form @submit.prevent="sendMessage">
-          <div class="input-actions-wrapper">
-            <!-- Attachment Button -->
-            <button type="button" class="action-icon-btn" title="Add Attachment" @click="triggerFileSelect">
-              <i class="ph ph-paperclip text-lg text-secondary hover:text-white transition-colors"></i>
+      <template v-if="activeChat">
+        <!-- Chat Header -->
+        <div class="chat-window-header">
+          <div class="header-contact-info">
+            <!-- Back button on Mobile -->
+            <button v-if="isMobile" @click="backToList" class="mobile-back-btn" title="Back to Chats">
+              <i class="ph ph-caret-left text-xl text-secondary hover:text-white transition-colors"></i>
             </button>
 
-            <!-- Text Area Input -->
-            <input 
-              type="text" 
-              placeholder="Type a message..." 
-              v-model="messageInput"
-              class="message-text-input"
-            />
-
-            <!-- Emoji Button & Picker -->
-            <div class="emoji-picker-container">
-              <button 
-                type="button" 
-                class="action-icon-btn" 
-                title="Add Emoji"
-                @click.stop="toggleEmojiPicker"
+            <!-- Header Avatar -->
+            <div class="avatar-container">
+              <div 
+                v-if="activeChat.avatar"
+                class="avatar-circle"
               >
-                <i class="ph ph-smiley text-lg text-secondary hover:text-white transition-colors" :class="{ 'active-emoji-icon': showEmojiPicker }"></i>
-              </button>
-              
-              <!-- Popover -->
-              <div v-if="showEmojiPicker" class="emoji-popover">
-                <div v-for="cat in emojiCategories" :key="cat.name" class="emoji-category-section">
-                  <h4 class="emoji-category-title">{{ cat.name }}</h4>
-                  <div class="emoji-grid">
-                    <button 
-                      v-for="emoji in cat.emojis" 
-                      :key="emoji" 
-                      type="button"
-                      class="emoji-item-btn"
-                      @click="addEmoji(emoji)"
-                    >
-                      {{ emoji }}
-                    </button>
-                  </div>
+                <img :src="activeChat.avatar" :alt="activeChat.name" />
+              </div>
+              <div 
+                v-else
+                class="avatar-circle avatar-initials"
+                :style="{ background: activeChat.avatarGradient }"
+              >
+                {{ activeChat.initials }}
+              </div>
+            </div>
+
+            <!-- Header Name and Status -->
+            <div class="header-name-status">
+              <span class="header-chat-name">{{ activeChat.name }}</span>
+              <span class="header-chat-status">
+                <span class="status-indicator-dot" :class="{ 'online': activeChat.online }"></span>
+                {{ activeChat.online ? 'Online' : 'Offline' }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Menu actions -->
+          <div class="options-menu-container">
+            <button class="options-btn" title="Chat Settings" @click.stop="toggleOptionsMenu">
+              <i class="ph ph-dots-three-vertical text-xl text-secondary hover:text-white transition-colors"></i>
+            </button>
+            
+            <Transition name="menu-fade">
+              <div v-if="showOptionsMenu" class="options-dropdown">
+                <button class="dropdown-item" @click="clearActiveChatMessages">
+                  <i class="ph ph-trash-simple text-base"></i>
+                  <span>Bersihkan Chat</span>
+                </button>
+                <button class="dropdown-item delete-option" @click="deleteActiveChat">
+                  <i class="ph ph-x-circle text-base"></i>
+                  <span>Hapus Chat</span>
+                </button>
+              </div>
+            </Transition>
+          </div>
+        </div>
+
+        <!-- Message Thread Area -->
+        <div class="message-thread-area" ref="messageThreadScrollContainer">
+          <div class="date-stamp-divider">
+            <span class="date-stamp">
+              May 24, 2024
+            </span>
+          </div>
+
+          <div class="messages-container">
+            <div 
+              v-for="msg in activeMessages" 
+              :key="msg.id" 
+              class="message-row"
+              :class="[msg.sender === 'me' ? 'me' : 'other']"
+            >
+              <!-- Message Bubble -->
+              <div 
+                class="message-bubble"
+                :class="[msg.sender === 'me' ? 'me-bubble' : 'other-bubble']"
+              >
+                <p class="message-text">{{ msg.text }}</p>
+                
+                <!-- Info footer inside bubble: time and double check -->
+                <div class="message-meta-footer">
+                  <span>{{ msg.time }}</span>
+                  <i v-if="msg.sender === 'me'" class="ph ph-checks" title="Read"></i>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Send Button -->
-          <button 
-            type="submit" 
-            class="send-btn"
-            :class="{ 'disabled-btn': !messageInput.trim() }"
-            title="Send Message"
-          >
-            <i class="ph ph-paper-plane-right text-lg"></i>
-          </button>
-        </form>
-      </div>
+        <!-- Bottom Input Bar -->
+        <div class="bottom-input-bar">
+          <!-- Hidden file input for attachments -->
+          <input 
+            type="file" 
+            ref="fileInput" 
+            @change="handleFileChange" 
+            style="display: none;" 
+          />
+          
+          <form @submit.prevent="sendMessage">
+            <div class="input-actions-wrapper">
+              <!-- Attachment Button -->
+              <button type="button" class="action-icon-btn" title="Add Attachment" @click="triggerFileSelect">
+                <i class="ph ph-paperclip text-lg text-secondary hover:text-white transition-colors"></i>
+              </button>
+
+              <!-- Text Area Input -->
+              <input 
+                type="text" 
+                placeholder="Type a message..." 
+                v-model="messageInput"
+                class="message-text-input"
+              />
+
+              <!-- Emoji Button & Picker -->
+              <div class="emoji-picker-container">
+                <button 
+                  type="button" 
+                  class="action-icon-btn" 
+                  title="Add Emoji"
+                  @click.stop="toggleEmojiPicker"
+                >
+                  <i class="ph ph-smiley text-lg text-secondary hover:text-white transition-colors" :class="{ 'active-emoji-icon': showEmojiPicker }"></i>
+                </button>
+                
+                <!-- Popover -->
+                <div v-if="showEmojiPicker" class="emoji-popover">
+                  <div v-for="cat in emojiCategories" :key="cat.name" class="emoji-category-section">
+                    <h4 class="emoji-category-title">{{ cat.name }}</h4>
+                    <div class="emoji-grid">
+                      <button 
+                        v-for="emoji in cat.emojis" 
+                        :key="emoji" 
+                        type="button"
+                        class="emoji-item-btn"
+                        @click="addEmoji(emoji)"
+                      >
+                        {{ emoji }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Send Button -->
+            <button 
+              type="submit" 
+              class="send-btn"
+              :class="{ 'disabled-btn': !messageInput.trim() }"
+              title="Send Message"
+            >
+              <i class="ph ph-paper-plane-right text-lg"></i>
+            </button>
+          </form>
+        </div>
+      </template>
+      <template v-else>
+        <!-- Empty / No Active Chat State -->
+        <div class="no-active-chat-placeholder">
+          <i class="ph ph-chat-circle-dots text-5xl mb-3 opacity-30 animate-pulse"></i>
+          <h3>No Conversation Selected</h3>
+          <p class="text-secondary text-sm">Select a contact from the list or start a new chat.</p>
+        </div>
+      </template>
     </div>
 
     <!-- Archived chats notification toast -->
@@ -600,6 +807,8 @@ watch(currentChatId, () => {
         <span class="text-xs text-white font-medium">Archived folder is currently empty.</span>
       </div>
     </Transition>
+
+
   </div>
 </template>
 
@@ -1280,7 +1489,7 @@ watch(currentChatId, () => {
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 10px 20px;
   border-radius: 8px;
-  shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1304,7 +1513,11 @@ watch(currentChatId, () => {
     margin: 0;
     border-radius: 0;
     border: none;
-    height: calc(100% - 62px); /* Align perfectly above mobile bottom nav (62px) since PlayerBar is hidden */
+    height: calc(100% - 62px - env(safe-area-inset-bottom, 0px)); /* Align perfectly above mobile bottom nav and account for safe area on iPhone Safari */
+  }
+
+  .chat-view.mobile-chat-active {
+    height: calc(100% - env(safe-area-inset-bottom, 0px));
   }
 
   .chat-list-pane {
@@ -1338,6 +1551,187 @@ watch(currentChatId, () => {
   .bottom-input-bar {
     padding: 0.75rem 1rem;
   }
+}
+
+/* Compose Sidebar Page Styles */
+.contacts-list-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contacts-list-sidebar .section-title {
+  margin-left: 4px;
+}
+
+.sidebar-contact-row {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.sidebar-contact-row:hover {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+.contact-suggestion-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.contact-suggestion-row:hover {
+  background-color: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.15);
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.contact-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.contact-snippet {
+  font-size: 11px;
+  color: #9CA3AF;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.start-chat-btn {
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.03);
+  transition: all 0.2s;
+}
+
+.contact-suggestion-row:hover .start-chat-btn {
+  background-color: #2563EB;
+  color: #FFFFFF;
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+/* Options Menu Dropdown Styles */
+.options-menu-container {
+  position: relative;
+  display: inline-block;
+}
+
+.options-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: #1C202E;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 6px;
+  width: 170px;
+  z-index: 150;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: dropdownSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  color: #9CA3AF;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #FFFFFF;
+}
+
+.dropdown-item.delete-option {
+  color: #EF4444;
+}
+
+.dropdown-item.delete-option:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #F87171;
+}
+
+/* Menu transitions */
+.menu-fade-enter-active, .menu-fade-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.menu-fade-enter-from, .menu-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.95) translateY(-5px);
+}
+
+/* No Active Chat Placeholder */
+.no-active-chat-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  text-align: center;
+  padding: 40px;
+  color: #9CA3AF;
+  height: 100%;
+}
+
+.no-active-chat-placeholder h3 {
+  color: #FFFFFF;
+  margin: 12px 0 6px 0;
+  font-size: 18px;
+  font-weight: 700;
 }
 </style>
 
